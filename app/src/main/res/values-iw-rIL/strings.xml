@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">אפליקציה לניהול גן</string>
+    <string name="item_notifications">הודעות</string>
+    <string name="item_calendar">לוח שנה</string>
+    <string name="item_pictures">תמונות</string>
+    <string name="navigation_header_text">אורח</string>
+    <string name="item_profile">פרופיל</string>
+    <string name="item_settings">הגדרות</string>
+    <string name="username_edit_text">שם משתמש</string>
+    <string name="password_edit_text">סיסמא</string>
+    <string name="firstname_text_view">שם פרטי</string>
+    <string name="lastname_text_view">שם משפחה</string>
+    <string name="item_language">שפה</string>
+    <string name="login_title">התחברות</string>
+    <string name="language_switch_title">בחר/י שפה</string>
+</resources>
