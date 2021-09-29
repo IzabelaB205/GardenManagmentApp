@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1037321139645",
+    "project_id": "gardenmanagmentapp-5418c",
+    "storage_bucket": "gardenmanagmentapp-5418c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1037321139645:android:543fabfa64b7215aa20ed4",
+        "android_client_info": {
+          "package_name": "com.example.gardenmanagmentapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1037321139645-mvh7385jpn5jbbgc3kt8acl3nm6dbbhj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBHMn548uYx1Pcp3c1elqcCOc8wisUF1DQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1037321139645-mvh7385jpn5jbbgc3kt8acl3nm6dbbhj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
