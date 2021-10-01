@@ -34,10 +34,12 @@ public class MainActivity extends AppCompatActivity implements SignInDialog.Sign
 
     private String username = null;
     private String password = null;
+    private FragmentManager fragmentManager;
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener authStateListener;
 
     private final String NOTIFICATIONS_FRAGMENT_TAG = "notifications_fragment";
+    private final String CHAT_FRAGMENT_TAG = "chat_fragment";
     private final String CALENDAR_FRAGMENT_TAG = "calendar_fragment";
 
     TextView textViewUsername;
@@ -56,6 +58,8 @@ public class MainActivity extends AppCompatActivity implements SignInDialog.Sign
         View headerView = navigationView.getHeaderView(0);
         textViewUsername = headerView.findViewById(R.id.navigation_header_text_view);
 
+        fragmentManager = getSupportFragmentManager();
+
         mAuth = FirebaseAuth.getInstance();
         authStateListener = new FirebaseAuth.AuthStateListener() {
             @Override
@@ -72,6 +76,7 @@ public class MainActivity extends AppCompatActivity implements SignInDialog.Sign
             }
         };
 
+
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull @NotNull MenuItem item) {
@@ -82,13 +87,22 @@ public class MainActivity extends AppCompatActivity implements SignInDialog.Sign
                 switch(item.getItemId())
                 {
                     case R.id.item_notifications:
+
+                        fragmentManager.beginTransaction()
+                                .add(R.id.drawer_layout, new NotificationsFragment(), NOTIFICATIONS_FRAGMENT_TAG)
+                                .commit();
+                        break;
+                    case R.id.item_chat:
+
+                        fragmentManager.beginTransaction()
+                                .add(R.id.drawer_layout, new ChatFragment(), CHAT_FRAGMENT_TAG)
+                                .commit();
                         break;
                     case R.id.item_calendar:
 
-                        FragmentManager fragmentManager = getSupportFragmentManager();
-                        FragmentTransaction transaction = fragmentManager.beginTransaction();
-                        transaction.add(R.id.drawer_layout, new CalendarFragment(), CALENDAR_FRAGMENT_TAG);
-                        transaction.commit();
+                        fragmentManager.beginTransaction()
+                                .add(R.id.drawer_layout, new CalendarFragment(), CALENDAR_FRAGMENT_TAG)
+                                .commit();
                         break;
                     case R.id.item_pictures:
                         break;

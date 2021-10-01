@@ -14,4 +14,5 @@
     <string name="item_language">שפה</string>
     <string name="login_title">התחברות</string>
     <string name="language_switch_title">בחר/י שפה</string>
+    <string name="item_chat">צ\'אט</string>
 </resources>

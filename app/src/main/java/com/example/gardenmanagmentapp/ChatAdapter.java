@@ -1,5 +1,6 @@
 package com.example.gardenmanagmentapp;
 
+import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,11 +11,16 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder>{
 
     List<ChatMessage> messages;
+
+    public ChatAdapter() {
+        messages = new ArrayList<>();
+    }
 
     public class ChatViewHolder extends RecyclerView.ViewHolder {
 
@@ -47,7 +53,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder
         ChatMessage message = messages.get(position);
 
         holder.userTextView.setText(message.getMessageUser());
-        holder.timeTextView.setText(message.getMessageTime());
+        holder.timeTextView.setText(DateFormat.format("dd-MM-yyyy (HH:mm:ss)", message.getMessageTime()));
         holder.messageTextView.setText(message.getMessageText());
     }
 
