@@ -4,13 +4,10 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
 import android.annotation.SuppressLint;
-import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.MenuItem;
@@ -28,12 +25,9 @@ import com.google.firebase.auth.FirebaseUser;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Locale;
-
 public class MainActivity extends AppCompatActivity implements SignInDialog.SignInDialogListener {
 
     private String username = null;
-    private String password = null;
     private FragmentManager fragmentManager;
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener authStateListener;
@@ -80,8 +74,6 @@ public class MainActivity extends AppCompatActivity implements SignInDialog.Sign
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull @NotNull MenuItem item) {
-                username = textViewUsername.getText().toString();
-
                 item.setChecked(true);
 
                 switch(item.getItemId())
@@ -165,11 +157,11 @@ public class MainActivity extends AppCompatActivity implements SignInDialog.Sign
     }
 
     @Override
-    public void applyUserInfo(String username, String password) {
+    public void applyUserInfo(String email, String username, String password) {
 
         //TODO: find user in users list - then sign-in user using his email
 
-        mAuth.signInWithEmailAndPassword(username, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+        mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull @NotNull Task<AuthResult> task) {
                 if(task.isSuccessful()) {
@@ -178,7 +170,6 @@ public class MainActivity extends AppCompatActivity implements SignInDialog.Sign
                 }
             }
         });
-
     }
 
     private void openLanguageSwitchDialog() {

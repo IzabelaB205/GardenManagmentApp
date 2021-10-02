@@ -15,4 +15,5 @@
     <string name="login_title">התחברות</string>
     <string name="language_switch_title">בחר/י שפה</string>
     <string name="item_chat">צ\'אט</string>
+    <string name="email_edit_text">דואר אלקטרוני</string>
 </resources>

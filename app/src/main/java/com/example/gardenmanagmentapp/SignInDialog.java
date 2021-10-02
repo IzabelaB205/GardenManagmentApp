@@ -19,6 +19,7 @@ import org.jetbrains.annotations.NotNull;
 
 public class SignInDialog extends AppCompatDialogFragment {
 
+    private TextInputEditText editTextEmail;
     private TextInputEditText editTextUsername;
     private TextInputEditText editTextPassword;
     private SignInDialogListener listener;
@@ -45,13 +46,15 @@ public class SignInDialog extends AppCompatDialogFragment {
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        String email = editTextEmail.getText().toString();
                         String username = editTextUsername.getText().toString();
                         String password = editTextPassword.getText().toString();
 
-                        listener.applyUserInfo(username, password);
+                        listener.applyUserInfo(email, username, password);
                     }
                 });
 
+        editTextEmail = view.findViewById(R.id.email_edit_text);
         editTextUsername = view.findViewById(R.id.username_edit_text);
         editTextPassword = view.findViewById(R.id.password_edit_text);
 
@@ -71,6 +74,6 @@ public class SignInDialog extends AppCompatDialogFragment {
     }
 
     public interface SignInDialogListener {
-        void applyUserInfo(String username, String password);
+        void applyUserInfo(String email, String username, String password);
     }
 }
