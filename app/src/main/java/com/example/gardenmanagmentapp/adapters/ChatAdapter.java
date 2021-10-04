@@ -21,8 +21,8 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder
 
     List<ChatMessage> messages;
 
-    public ChatAdapter() {
-        messages = new ArrayList<>();
+    public ChatAdapter(List<ChatMessage> messages) {
+        this.messages = messages;
     }
 
     public class ChatViewHolder extends RecyclerView.ViewHolder {
@@ -56,7 +56,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder
         ChatMessage message = messages.get(position);
 
         holder.userTextView.setText(message.getMessageUser());
-        holder.timeTextView.setText(DateFormat.format("dd-MM-yyyy (HH:mm:ss)", message.getMessageTime()));
+        holder.timeTextView.setText(message.getMessageTime());
         holder.messageTextView.setText(message.getMessageText());
     }
 

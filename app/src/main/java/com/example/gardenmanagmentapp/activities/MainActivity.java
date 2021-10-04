@@ -23,6 +23,7 @@ import com.example.gardenmanagmentapp.fragments.ChatFragment;
 import com.example.gardenmanagmentapp.fragments.NotificationsFragment;
 import com.example.gardenmanagmentapp.fragments.ProfileFragment;
 import com.example.gardenmanagmentapp.model.Notification;
+import com.example.gardenmanagmentapp.model.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -116,8 +117,11 @@ public class MainActivity extends AppCompatActivity implements SignInDialog.Sign
                         break;
                     case R.id.item_profile:
 
+                        //TODO: read user information from firebase
+                        User user = new User("Izabela", "12345679", "054-43857654", "izabela@gmail.com");
+                        ProfileFragment profileFragment = ProfileFragment.newInstance(user);
                         fragmentManager.beginTransaction()
-                                .add(R.id.drawer_layout, new ProfileFragment(), PROFILE_FRAGMENT_TAG)
+                                .add(R.id.drawer_layout, profileFragment, PROFILE_FRAGMENT_TAG)
                                 .commit();
                         break;
                     case R.id.item_settings:

@@ -1,6 +1,5 @@
 package com.example.gardenmanagmentapp.fragments;
 
-import android.database.DataSetObserver;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -8,8 +7,6 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Adapter;
-import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.example.gardenmanagmentapp.R;
@@ -37,6 +34,7 @@ public class ProfileFragment extends Fragment {
      * @return A new instance of fragment ProfileFragment.
      */
     public static ProfileFragment newInstance(User user) {
+
         ProfileFragment fragment = new ProfileFragment();
         Bundle args = new Bundle();
         args.putSerializable("user", user);
@@ -61,10 +59,10 @@ public class ProfileFragment extends Fragment {
         CircleImageView circleImageView = view.findViewById(R.id.profile_image);
         TextView textViewUsername = view.findViewById(R.id.profile_username_text_view);
         TextInputEditText editTextId = view.findViewById(R.id.profile_id_edit_text);
-        TextInputEditText editTextEmail = view.findViewById(R.id.email_edit_text);
+        TextInputEditText editTextEmail = view.findViewById(R.id.profile_email_edit_text);
         TextInputEditText editTextPhone = view.findViewById(R.id.profile_phone_edit_text);
 
-        User user = (User) getArguments().get("user");
+        User user = (User) getArguments().getSerializable("user");
 
         textViewUsername.setText(user.getFullName());
         editTextId.setText(user.getId());

@@ -22,37 +22,21 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class ChatFragment extends Fragment {
 
     private RecyclerView recyclerView;
     private FloatingActionButton floatingActionButton;
     private EditText messageEditText;
 
-    FirebaseDatabase database = FirebaseDatabase.getInstance();
-    DatabaseReference chats = database.getReference("chats");
+    private List<ChatMessage> messages = new ArrayList<>();
 
     @Override
     public void onCreate(@Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        floatingActionButton = getActivity().findViewById(R.id.floating_btn_send);
-        messageEditText = getActivity().findViewById(R.id.message_edit_text);
-
-        floatingActionButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String messageContext = messageEditText.getText().toString();
-
-                chats.push().setValue(new ChatMessage(messageContext,
-                        FirebaseAuth.getInstance()
-                        .getCurrentUser()
-                        .getDisplayName())
-                );
-
-                // Clear the edit text input
-                messageEditText.setText("");
-            }
-        });
     }
 
     @Nullable
@@ -68,9 +52,22 @@ public class ChatFragment extends Fragment {
 
         //TODO: reads the messages from DB and sent to chat adapter
 
-        ChatAdapter chatAdapter = new ChatAdapter();
-        recyclerView.setAdapter(chatAdapter);
+        ChatAdapter chatAdapter = new ChatAdapter(messages);
 
+        floatingActionButton = view.findViewById(R.id.floating_btn_send);
+        messageEditText = view.findViewById(R.id.message_edit_text);
+
+        floatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String context = messageEditText.getText().toString();
+                ChatMessage message = new ChatMessage(context, "MAMA");
+                messages.add(message);
+                chatAdapter.notifyItemInserted(messages.size() - 1);
+            }
+        });
+
+        recyclerView.setAdapter(chatAdapter);
         return view;
     }
 }

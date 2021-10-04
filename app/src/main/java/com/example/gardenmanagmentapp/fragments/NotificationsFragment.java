@@ -38,6 +38,8 @@ public class NotificationsFragment extends Fragment {
         this.notificationList = notificationList;
     }
 
+
+
     @Nullable
     @org.jetbrains.annotations.Nullable
     @Override
@@ -85,7 +87,7 @@ public class NotificationsFragment extends Fragment {
                         String title = editTextTitle.getText().toString();
                         String context = editTextContext.getText().toString();
 
-                        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+                        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
                         LocalDateTime now = LocalDateTime.now();
                         String date = dtf.format(now);
 

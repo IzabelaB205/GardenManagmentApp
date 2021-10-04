@@ -1,19 +1,21 @@
 package com.example.gardenmanagmentapp.model;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 public class ChatMessage {
 
     private String messageText;
     private String messageUser;
-    private long messageTime;
+    private String messageTime;
 
     public ChatMessage(String messageText, String messageUser) {
         this.messageText = messageText;
         this.messageUser = messageUser;
 
         // Initialize to current time
-        messageTime = new Date().getTime();
+        messageTime = DateTimeFormatter.ofPattern("dd/MM/yyyy").format(LocalDateTime.now());
     }
 
     public ChatMessage() {
@@ -35,11 +37,11 @@ public class ChatMessage {
         this.messageUser = messageUser;
     }
 
-    public long getMessageTime() {
+    public String getMessageTime() {
         return messageTime;
     }
 
-    public void setMessageTime(long messageTime) {
+    public void setMessageTime(String messageTime) {
         this.messageTime = messageTime;
     }
 }
