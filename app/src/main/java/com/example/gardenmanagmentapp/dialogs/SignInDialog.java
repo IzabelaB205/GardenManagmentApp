@@ -1,4 +1,4 @@
-package com.example.gardenmanagmentapp;
+package com.example.gardenmanagmentapp.dialogs;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatDialogFragment;
 
+import com.example.gardenmanagmentapp.R;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -37,13 +38,13 @@ public class SignInDialog extends AppCompatDialogFragment {
 
         builder.setView(view)
                 .setTitle(R.string.login_title)
-                .setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+                .setNegativeButton(R.string.cancel_button, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
 
                     }
                 })
-                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                .setPositiveButton(R.string.ok_button, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         String email = editTextEmail.getText().toString();

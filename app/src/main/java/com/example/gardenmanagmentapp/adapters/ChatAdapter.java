@@ -1,4 +1,4 @@
-package com.example.gardenmanagmentapp;
+package com.example.gardenmanagmentapp.adapters;
 
 import android.text.format.DateFormat;
 import android.view.LayoutInflater;
@@ -8,6 +8,9 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.gardenmanagmentapp.R;
+import com.example.gardenmanagmentapp.model.ChatMessage;
 
 import org.jetbrains.annotations.NotNull;
 

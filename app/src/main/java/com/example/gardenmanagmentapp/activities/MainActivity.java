@@ -1,4 +1,4 @@
-package com.example.gardenmanagmentapp;
+package com.example.gardenmanagmentapp.activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
@@ -14,8 +14,18 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+import com.example.gardenmanagmentapp.database.FirebaseDatabaseHelper;
+import com.example.gardenmanagmentapp.dialogs.LanguageSwitchDialog;
+import com.example.gardenmanagmentapp.R;
+import com.example.gardenmanagmentapp.dialogs.SignInDialog;
+import com.example.gardenmanagmentapp.fragments.CalendarFragment;
+import com.example.gardenmanagmentapp.fragments.ChatFragment;
+import com.example.gardenmanagmentapp.fragments.NotificationsFragment;
+import com.example.gardenmanagmentapp.fragments.ProfileFragment;
+import com.example.gardenmanagmentapp.model.Notification;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
@@ -25,9 +35,12 @@ import com.google.firebase.auth.FirebaseUser;
 
 import org.jetbrains.annotations.NotNull;
 
-public class MainActivity extends AppCompatActivity implements SignInDialog.SignInDialogListener {
+import java.util.ArrayList;
+
+public class MainActivity extends AppCompatActivity implements SignInDialog.SignInDialogListener, NotificationsFragment.AddNotificationDialogListener {
 
     private String username = null;
+    private FirebaseDatabaseHelper firebaseManager;
     private FragmentManager fragmentManager;
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener authStateListener;
@@ -35,6 +48,7 @@ public class MainActivity extends AppCompatActivity implements SignInDialog.Sign
     private final String NOTIFICATIONS_FRAGMENT_TAG = "notifications_fragment";
     private final String CHAT_FRAGMENT_TAG = "chat_fragment";
     private final String CALENDAR_FRAGMENT_TAG = "calendar_fragment";
+    private final String PROFILE_FRAGMENT_TAG = "profile_fragment";
 
     TextView textViewUsername;
 
@@ -53,6 +67,7 @@ public class MainActivity extends AppCompatActivity implements SignInDialog.Sign
         textViewUsername = headerView.findViewById(R.id.navigation_header_text_view);
 
         fragmentManager = getSupportFragmentManager();
+        firebaseManager = new FirebaseDatabaseHelper();
 
         mAuth = FirebaseAuth.getInstance();
         authStateListener = new FirebaseAuth.AuthStateListener() {
@@ -70,7 +85,7 @@ public class MainActivity extends AppCompatActivity implements SignInDialog.Sign
             }
         };
 
-
+        openSignInDialog();
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull @NotNull MenuItem item) {
@@ -80,8 +95,9 @@ public class MainActivity extends AppCompatActivity implements SignInDialog.Sign
                 {
                     case R.id.item_notifications:
 
+                        //firebaseManager.LoadNotificationsData();
                         fragmentManager.beginTransaction()
-                                .add(R.id.drawer_layout, new NotificationsFragment(), NOTIFICATIONS_FRAGMENT_TAG)
+                                .add(R.id.drawer_layout, new NotificationsFragment(new ArrayList<>()), NOTIFICATIONS_FRAGMENT_TAG)
                                 .commit();
                         break;
                     case R.id.item_chat:
@@ -99,6 +115,10 @@ public class MainActivity extends AppCompatActivity implements SignInDialog.Sign
                     case R.id.item_pictures:
                         break;
                     case R.id.item_profile:
+
+                        fragmentManager.beginTransaction()
+                                .add(R.id.drawer_layout, new ProfileFragment(), PROFILE_FRAGMENT_TAG)
+                                .commit();
                         break;
                     case R.id.item_settings:
                         break;
@@ -109,10 +129,6 @@ public class MainActivity extends AppCompatActivity implements SignInDialog.Sign
                 }
 
                 drawerLayout.closeDrawers();
-
-                //TODO:should represent dialog only for visitor user
-                openSignInDialog();
-
                 return true;
             }
         });
@@ -159,7 +175,7 @@ public class MainActivity extends AppCompatActivity implements SignInDialog.Sign
     @Override
     public void applyUserInfo(String email, String username, String password) {
 
-        //TODO: find user in users list - then sign-in user using his email
+        //firebaseManager.Login(email, password);
 
         mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
@@ -170,6 +186,11 @@ public class MainActivity extends AppCompatActivity implements SignInDialog.Sign
                 }
             }
         });
+    }
+
+    @Override
+    public void applyNotificationInfo(Notification notification) {
+        firebaseManager.UpdateNotificationsDatabase(notification);
     }
 
     private void openLanguageSwitchDialog() {

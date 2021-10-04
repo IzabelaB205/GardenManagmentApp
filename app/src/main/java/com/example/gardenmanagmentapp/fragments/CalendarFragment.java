@@ -1,4 +1,4 @@
-package com.example.gardenmanagmentapp;
+package com.example.gardenmanagmentapp.fragments;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -8,8 +8,9 @@ import android.widget.CalendarView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
+
+import com.example.gardenmanagmentapp.R;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -37,7 +38,7 @@ public class CalendarFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull @NotNull LayoutInflater inflater, @Nullable @org.jetbrains.annotations.Nullable ViewGroup container, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.calendar_fragment, container, false);
+        View view = inflater.inflate(R.layout.fragment_calendar, container, false);
 
         return view;
     }

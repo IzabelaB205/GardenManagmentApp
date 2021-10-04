@@ -1,4 +1,4 @@
-package com.example.gardenmanagmentapp;
+package com.example.gardenmanagmentapp.model;
 
 import java.util.Date;
 

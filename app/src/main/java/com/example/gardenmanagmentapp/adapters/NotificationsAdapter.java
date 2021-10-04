@@ -1,13 +1,15 @@
-package com.example.gardenmanagmentapp;
+package com.example.gardenmanagmentapp.adapters;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.gardenmanagmentapp.R;
+import com.example.gardenmanagmentapp.model.Notification;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -25,7 +27,6 @@ public class NotificationsAdapter extends RecyclerView.Adapter<NotificationsAdap
 
         TextView dateTextView;
         TextView titleTextView;
-        ImageView messageImageView;
         TextView senderTextView;
         TextView contextTextView;
 
@@ -34,7 +35,6 @@ public class NotificationsAdapter extends RecyclerView.Adapter<NotificationsAdap
 
             dateTextView = itemView.findViewById(R.id.notification_date_text_view);
             titleTextView = itemView.findViewById(R.id.notification_title_text_view);
-            messageImageView = itemView.findViewById(R.id.notification_image_view);
             senderTextView = itemView.findViewById(R.id.notification_sender_text_view);
             contextTextView = itemView.findViewById(R.id.notification_context_text_view);
         }
@@ -46,9 +46,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter<NotificationsAdap
     public NotificationViewHolder onCreateViewHolder(@NonNull @NotNull ViewGroup parent, int viewType) {
 
         View view  = LayoutInflater.from(parent.getContext()).inflate(R.layout.notification_card_view, parent, false);
-        NotificationViewHolder notificationViewHolder = new NotificationViewHolder(view);
-
-        return notificationViewHolder;
+        return new NotificationViewHolder(view);
     }
 
     @Override
@@ -58,7 +56,6 @@ public class NotificationsAdapter extends RecyclerView.Adapter<NotificationsAdap
 
         holder.dateTextView.setText(notification.getDate());
         holder.titleTextView.setText(notification.getTitle());
-        holder.messageImageView.setImageResource(notification.getImage());
         holder.senderTextView.setText(notification.getSender());
         holder.contextTextView.setText(notification.getContext());
     }

@@ -11,51 +11,59 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:src="@drawable/ic_message"
-        android:layout_margin="10dp"
-        android:layout_gravity="start"
         android:id="@+id/notification_image_view" />
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:layout_gravity="center">
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:paddingStart="32dp"
+        android:paddingEnd="8dp">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true"
             android:text="Title"
-            android:layout_marginRight="8dp"
+            android:textStyle="normal|bold"
             android:id="@+id/notification_title_text_view" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Date"
-            android:layout_gravity="end"
+            android:layout_below="@+id/notification_title_text_view"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="5dp"
+            android:text="From:"
+            android:id="@+id/notification_from_text_view" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/notification_title_text_view"
+            android:layout_toEndOf="@id/notification_from_text_view"
+            android:layout_marginTop="5dp"
+            android:text="Sender"
+            android:id="@+id/notification_sender_text_view" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/notification_title_text_view"
+            android:layout_alignParentEnd="true"
+            android:text="Time"
             android:id="@+id/notification_date_text_view" />
 
-    </LinearLayout>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="Sender"
-        android:id="@+id/notification_sender_text_view" />
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="Context"
-        android:id="@+id/notification_context_text_view"/>
-
-    </LinearLayout>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/notification_from_text_view"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="5dp"
+            android:text="Text"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textSize="18sp"
+            android:id="@+id/notification_context_text_view" />
+    </RelativeLayout>
 
 </androidx.cardview.widget.CardView>

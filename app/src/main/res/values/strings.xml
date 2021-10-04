@@ -14,5 +14,16 @@
     <string name="login_title">Login</string>
     <string name="language_switch_title">Choose Language</string>
     <string name="item_chat">Chat</string>
-    <string name="email_edit_text">Email</string>
+    <string name="email_label">Email</string>
+    <string name="notification_title">Notification</string>
+    <string name="cancel_button">CANCEL</string>
+    <string name="save_button">SAVE</string>
+    <string name="ok_button">OK</string>
+    <string name="send_button">SEND</string>
+    <string name="item_profiles">Profiles</string>
+    <string name="item_home">Home</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="phone_label">Phone</string>
+    <string name="id_label">ID</string>
 </resources>

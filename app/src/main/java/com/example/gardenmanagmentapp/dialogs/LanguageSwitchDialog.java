@@ -1,4 +1,4 @@
-package com.example.gardenmanagmentapp;
+package com.example.gardenmanagmentapp.dialogs;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -12,6 +12,8 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatDialogFragment;
+
+import com.example.gardenmanagmentapp.R;
 
 import org.jetbrains.annotations.NotNull;
 

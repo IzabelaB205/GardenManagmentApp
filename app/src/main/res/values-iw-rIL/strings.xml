@@ -15,5 +15,14 @@
     <string name="login_title">התחברות</string>
     <string name="language_switch_title">בחר/י שפה</string>
     <string name="item_chat">צ\'אט</string>
-    <string name="email_edit_text">דואר אלקטרוני</string>
+    <string name="email_label">דואר אלקטרוני</string>
+    <string name="notification_title">הודעה</string>
+    <string name="cancel_button">ביטול</string>
+    <string name="save_button">שמור</string>
+    <string name="ok_button">אישור</string>
+    <string name="send_button">שלח</string>
+    <string name="item_profiles">משתמשים</string>
+    <string name="item_home">בית</string>
+    <string name="phone_label">טלפון</string>
+    <string name="id_label">תעודת זהות</string>
 </resources>
