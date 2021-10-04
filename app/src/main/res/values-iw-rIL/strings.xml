@@ -25,4 +25,5 @@
     <string name="item_home">בית</string>
     <string name="phone_label">טלפון</string>
     <string name="id_label">תעודת זהות</string>
+    <string name="password_label">סיסמא</string>
 </resources>

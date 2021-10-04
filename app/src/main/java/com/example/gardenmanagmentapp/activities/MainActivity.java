@@ -118,7 +118,7 @@ public class MainActivity extends AppCompatActivity implements SignInDialog.Sign
                     case R.id.item_profile:
 
                         //TODO: read user information from firebase
-                        User user = new User("Izabela", "12345679", "054-43857654", "izabela@gmail.com");
+                        User user = new User("Izabela", "12345679", "054-43857654", "izabela@gmail.com","111222333","");
                         ProfileFragment profileFragment = ProfileFragment.newInstance(user);
                         fragmentManager.beginTransaction()
                                 .add(R.id.drawer_layout, profileFragment, PROFILE_FRAGMENT_TAG)
