@@ -27,7 +27,18 @@
         android:id="@+id/default_context"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
         android:textSize="15sp"
-        android:gravity="center"/>
+        android:gravity="center" />
+
+    <TextView
+        android:id="@+id/default_sign_in"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="@string/default_sing_in_text"
+        android:textStyle="italic"
+        android:textColor="@color/purple_500"
+        android:clickable="true" />
 
 </LinearLayout>

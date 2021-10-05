@@ -12,7 +12,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.gardenmanagmentapp.R;
-import com.example.gardenmanagmentapp.model.User;
+import com.example.gardenmanagmentapp.dialogs.SignInDialog;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -36,11 +36,19 @@ public class DefaultFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull @NotNull LayoutInflater inflater, @Nullable @org.jetbrains.annotations.Nullable ViewGroup container, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_default_profile, container, false);
+        View view = inflater.inflate(R.layout.fragment_default, container, false);
 
         ImageView defaultImageView = view.findViewById(R.id.default_image_view);
         TextView titleTextView = view.findViewById(R.id.default_title);
         TextView contextTextView = view.findViewById(R.id.default_context);
+        TextView signInTextView = view.findViewById(R.id.default_sign_in);
+
+        signInTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openSignInDialog();
+            }
+        });
 
         int image = 0;
         int item = getArguments().getInt("item");
@@ -71,5 +79,10 @@ public class DefaultFragment extends Fragment {
         contextTextView.setText(context);
 
         return view;
+    }
+
+    private void openSignInDialog() {
+        SignInDialog signInDialog = new SignInDialog();
+        signInDialog.show(getActivity().getSupportFragmentManager(), SignInDialog.TAG);
     }
 }

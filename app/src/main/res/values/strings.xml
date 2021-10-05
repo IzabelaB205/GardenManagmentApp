@@ -25,4 +25,5 @@
     <string name="id_label">ID</string>
     <string name="password_label">Password</string>
     <string name="default_image_view">Default image view</string>
+    <string name="default_sing_in_text"><u>please sign-in</u></string>
 </resources>

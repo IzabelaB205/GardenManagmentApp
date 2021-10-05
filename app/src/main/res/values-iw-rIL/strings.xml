@@ -26,4 +26,5 @@
     <string name="id_label">תעודת זהות</string>
     <string name="password_label">סיסמא</string>
     <string name="default_image_view">תצוגה זמנית</string>
+    <string name="default_sing_in_text"><u>התחבר למערכת</u></string>
 </resources>

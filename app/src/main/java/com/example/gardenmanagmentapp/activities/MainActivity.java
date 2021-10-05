@@ -32,9 +32,10 @@ import com.google.firebase.auth.FirebaseUser;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
+
 public class MainActivity extends AppCompatActivity implements SignInDialog.SignInDialogListener, NotificationsFragment.AddNotificationDialogListener {
 
-    private String username = null;
     private FirebaseDatabaseHelper firebaseManager;
     private FragmentManager fragmentManager;
     private FirebaseAuth mAuth;
@@ -81,12 +82,13 @@ public class MainActivity extends AppCompatActivity implements SignInDialog.Sign
             }
         };
 
-        openSignInDialog();
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull @NotNull MenuItem item) {
                 String title = "";
                 String context = "";
+
+                item.setChecked(true);
 
                 switch(item.getItemId())
                 {
@@ -95,9 +97,13 @@ public class MainActivity extends AppCompatActivity implements SignInDialog.Sign
                         context = "this is a default notification fragment";
                         openDefaultFragment(R.id.item_notifications, title, context);
 
-//                        fragmentManager.beginTransaction()
-//                                .add(R.id.drawer_layout, new NotificationsFragment(new ArrayList<>()), NOTIFICATIONS_FRAGMENT_TAG)
-//                                .commit();
+//                        if(!textViewUsername.equals("Visitor")) {
+//                            fragmentManager.beginTransaction()
+//                                    .replace(R.id.drawer_layout, new NotificationsFragment(new ArrayList<>()), NOTIFICATIONS_FRAGMENT_TAG)
+//                                    .addToBackStack(null)
+//                                    .commit();
+//                        }
+
                         break;
                     case R.id.item_chat:
                         title = "Chat Fragment";
@@ -179,15 +185,8 @@ public class MainActivity extends AppCompatActivity implements SignInDialog.Sign
         return super.onOptionsItemSelected(item);
     }
 
-    private void openSignInDialog() {
-        SignInDialog signInDialog = new SignInDialog();
-        signInDialog.show(getSupportFragmentManager(), SignInDialog.TAG);
-    }
-
     @Override
     public void applyUserInfo(String email, String username, String password) {
-
-        //firebaseManager.Login(email, password);
 
         mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
