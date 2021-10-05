@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp">
+
+    <Button
+        android:id="@+id/picture_select_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/picture_select_button"/>
+
+    <EditText
+        android:id="@+id/file_name_edit_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@+id/picture_select_button"
+        android:hint="@string/file_name_hint"
+        android:layout_marginStart="16dp"/>
+
+    <ImageView
+        android:id="@+id/picture_image_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/file_name_edit_text"
+        android:layout_above="@id/picture_upload_progress_bar"
+        android:layout_marginTop="16dp"/>
+
+    <ProgressBar
+        android:id="@+id/picture_upload_progress_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+        android:layout_alignParentStart="true"
+        android:layout_above="@+id/picture_upload_linearlayout"
+        android:layout_marginBottom="16dp"/>
+
+    <LinearLayout
+        android:id="@+id/picture_upload_linearlayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/picture_upload_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/upload_button" />
+
+        <Button
+            android:id="@+id/picture_cancel_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="@string/cancel_button" />
+
+    </LinearLayout>
+
+</RelativeLayout>

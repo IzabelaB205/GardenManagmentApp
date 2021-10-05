@@ -26,4 +26,7 @@
     <string name="password_label">Password</string>
     <string name="default_image_view">Default image view</string>
     <string name="default_sing_in_text"><u>please sign-in</u></string>
+    <string name="picture_select_button">choose file</string>
+    <string name="file_name_hint">Enter file name</string>
+    <string name="upload_button">upload</string>
 </resources>
