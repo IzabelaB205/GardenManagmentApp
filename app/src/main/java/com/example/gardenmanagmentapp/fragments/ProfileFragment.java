@@ -2,73 +2,36 @@ package com.example.gardenmanagmentapp.fragments;
 
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
-import androidx.core.graphics.drawable.RoundedBitmapDrawable;
-import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory;
 import androidx.fragment.app.Fragment;
-
-import com.bumptech.glide.request.target.BitmapImageViewTarget;
 import com.example.gardenmanagmentapp.R;
 import com.example.gardenmanagmentapp.model.User;
 import com.google.android.material.textfield.TextInputEditText;
-
 import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.InputStream;
-
-
-import de.hdodenhof.circleimageview.CircleImageView;
 import com.bumptech.glide.Glide;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link ProfileFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class ProfileFragment extends Fragment implements DialogInterface.OnClickListener {
-
-    //boolean byCamera;
-   // Bitmap bitmap;
-    //File file;
-
-//    CircleImageView circleImageView;
 
     ImageView circleImageView;
     ActivityResultLauncher<Void> cameraLauncher;
     ActivityResultLauncher<String> galleryPictureLauncher;
     String profileImageLink = "";
 
-    public ProfileFragment() {
-        // Required empty public constructor
-    }
+    public ProfileFragment() { }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param user application user.
-     * @return A new instance of fragment ProfileFragment.
-     */
     public static ProfileFragment newInstance(User user) {
 
         ProfileFragment fragment = new ProfileFragment();
@@ -76,12 +39,6 @@ public class ProfileFragment extends Fragment implements DialogInterface.OnClick
         args.putSerializable("user", user);
         fragment.setArguments(args);
         return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
     }
 
     @Override
@@ -109,11 +66,8 @@ public class ProfileFragment extends Fragment implements DialogInterface.OnClick
             @Override
             public void onClick(View v) {
                 UploadProfilePicture();
-
             }
         });
-
-        //TODO: add user photo by using glide library
 
         return view;
     }
@@ -140,7 +94,6 @@ public class ProfileFragment extends Fragment implements DialogInterface.OnClick
                 profileImageLink = result.toString();
             }
         });
-
     }
 
     void UploadProfilePicture(){
@@ -167,10 +120,6 @@ public class ProfileFragment extends Fragment implements DialogInterface.OnClick
 
                 .show();
     }
-
-
-
-
 
     public Uri getImageUri(Context inContext, Bitmap inImage) {
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();

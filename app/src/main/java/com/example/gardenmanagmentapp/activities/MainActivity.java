@@ -18,15 +18,11 @@ import com.example.gardenmanagmentapp.database.FirebaseDatabaseHelper;
 import com.example.gardenmanagmentapp.dialogs.LanguageSwitchDialog;
 import com.example.gardenmanagmentapp.R;
 import com.example.gardenmanagmentapp.dialogs.SignInDialog;
-import com.example.gardenmanagmentapp.fragments.CalendarFragment;
-import com.example.gardenmanagmentapp.fragments.ChatFragment;
+import com.example.gardenmanagmentapp.fragments.DefaultFragment;
 import com.example.gardenmanagmentapp.fragments.NotificationsFragment;
-import com.example.gardenmanagmentapp.fragments.ProfileFragment;
 import com.example.gardenmanagmentapp.model.Notification;
-import com.example.gardenmanagmentapp.model.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
@@ -35,8 +31,6 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 import org.jetbrains.annotations.NotNull;
-
-import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements SignInDialog.SignInDialogListener, NotificationsFragment.AddNotificationDialogListener {
 
@@ -50,6 +44,7 @@ public class MainActivity extends AppCompatActivity implements SignInDialog.Sign
     private final String CHAT_FRAGMENT_TAG = "chat_fragment";
     private final String CALENDAR_FRAGMENT_TAG = "calendar_fragment";
     private final String PROFILE_FRAGMENT_TAG = "profile_fragment";
+    private final String DEFAULT_FRAGMENT_TAG = "default_fragment";
 
     TextView textViewUsername;
 
@@ -90,39 +85,52 @@ public class MainActivity extends AppCompatActivity implements SignInDialog.Sign
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull @NotNull MenuItem item) {
-                item.setChecked(true);
+                String title = "";
+                String context = "";
 
                 switch(item.getItemId())
                 {
                     case R.id.item_notifications:
+                        title = "Notification Fragment";
+                        context = "this is a default notification fragment";
+                        openDefaultFragment(R.id.item_notifications, title, context);
 
-                        //firebaseManager.LoadNotificationsData();
-                        fragmentManager.beginTransaction()
-                                .add(R.id.drawer_layout, new NotificationsFragment(new ArrayList<>()), NOTIFICATIONS_FRAGMENT_TAG)
-                                .commit();
+//                        fragmentManager.beginTransaction()
+//                                .add(R.id.drawer_layout, new NotificationsFragment(new ArrayList<>()), NOTIFICATIONS_FRAGMENT_TAG)
+//                                .commit();
                         break;
                     case R.id.item_chat:
-
-                        fragmentManager.beginTransaction()
+                        title = "Chat Fragment";
+                        context = "this is a default chat fragment";
+                        openDefaultFragment(R.id.item_chat, title, context);
+                        /*fragmentManager.beginTransaction()
                                 .add(R.id.drawer_layout, new ChatFragment(), CHAT_FRAGMENT_TAG)
-                                .commit();
+                                .commit();*/
                         break;
                     case R.id.item_calendar:
-
-                        fragmentManager.beginTransaction()
+                        title = "Calendar Fragment";
+                        context = "this is a default calendar fragment";
+                        openDefaultFragment(R.id.item_calendar, title, context);
+                        /*fragmentManager.beginTransaction()
                                 .add(R.id.drawer_layout, new CalendarFragment(), CALENDAR_FRAGMENT_TAG)
-                                .commit();
+                                .commit();*/
                         break;
                     case R.id.item_pictures:
+                        title = "Pictures Fragment";
+                        context = "this is a default pictures fragment";
+                        openDefaultFragment(R.id.item_pictures, title, context);
                         break;
                     case R.id.item_profile:
+                        title = "Profile Fragment";
+                        context = "this is a default profile fragment";
+                        openDefaultFragment(R.id.item_profile, title, context);
 
-                        //TODO: read user information from firebase
-                        User user = new User("Izabela", "12345679", "054-43857654", "izabela@gmail.com","111222333","");
-                        ProfileFragment profileFragment = ProfileFragment.newInstance(user);
-                        fragmentManager.beginTransaction()
-                                .add(R.id.drawer_layout, profileFragment, PROFILE_FRAGMENT_TAG)
-                                .commit();
+//                        //TODO: read user information from firebase
+//                        User user = new User("Izabela", "12345679", "054-43857654", "izabela@gmail.com","111222333","");
+//                        ProfileFragment profileFragment = ProfileFragment.newInstance(user);
+//                        fragmentManager.beginTransaction()
+//                                .add(R.id.drawer_layout, profileFragment, PROFILE_FRAGMENT_TAG)
+//                                .commit();
                         break;
                     case R.id.item_settings:
                         break;
@@ -200,5 +208,14 @@ public class MainActivity extends AppCompatActivity implements SignInDialog.Sign
     private void openLanguageSwitchDialog() {
         LanguageSwitchDialog languageSwitchDialog = new LanguageSwitchDialog();
         languageSwitchDialog.show(getSupportFragmentManager(), LanguageSwitchDialog.TAG);
+    }
+
+    private void openDefaultFragment(int selectedItem, String title, String context) {
+        DefaultFragment defaultFragment = DefaultFragment.newInstance(selectedItem, title, context);
+
+        fragmentManager.beginTransaction()
+                .replace(R.id.drawer_layout, defaultFragment, DEFAULT_FRAGMENT_TAG)
+                .addToBackStack(null)
+                .commit();
     }
 }

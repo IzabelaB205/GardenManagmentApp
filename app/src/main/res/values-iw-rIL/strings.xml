@@ -7,8 +7,7 @@
     <string name="navigation_header_text">אורח</string>
     <string name="item_profile">פרופיל</string>
     <string name="item_settings">הגדרות</string>
-    <string name="username_edit_text">שם משתמש</string>
-    <string name="password_edit_text">סיסמא</string>
+    <string name="username_label">שם משתמש</string>
     <string name="firstname_text_view">שם פרטי</string>
     <string name="lastname_text_view">שם משפחה</string>
     <string name="item_language">שפה</string>
@@ -26,4 +25,5 @@
     <string name="phone_label">טלפון</string>
     <string name="id_label">תעודת זהות</string>
     <string name="password_label">סיסמא</string>
+    <string name="default_image_view">תצוגה זמנית</string>
 </resources>
