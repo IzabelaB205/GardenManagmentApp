@@ -8,6 +8,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.FragmentManager;
 
 import android.annotation.SuppressLint;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.MenuItem;
@@ -20,7 +21,10 @@ import com.example.gardenmanagmentapp.R;
 import com.example.gardenmanagmentapp.dialogs.SignInDialog;
 import com.example.gardenmanagmentapp.fragments.DefaultFragment;
 import com.example.gardenmanagmentapp.fragments.NotificationsFragment;
+import com.example.gardenmanagmentapp.fragments.PictureSelectionFragment;
+import com.example.gardenmanagmentapp.fragments.PictureStorageFragment;
 import com.example.gardenmanagmentapp.model.Notification;
+import com.example.gardenmanagmentapp.model.Picture;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
@@ -33,8 +37,12 @@ import com.google.firebase.auth.FirebaseUser;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements SignInDialog.SignInDialogListener, NotificationsFragment.AddNotificationDialogListener {
+public class MainActivity extends AppCompatActivity implements SignInDialog.SignInDialogListener
+        , NotificationsFragment.AddNotificationDialogListener
+        , PictureSelectionFragment.PictureUploadListener
+        ,PictureStorageFragment.PictureStorageListener{
 
     private FirebaseDatabaseHelper firebaseManager;
     private FragmentManager fragmentManager;
@@ -45,6 +53,7 @@ public class MainActivity extends AppCompatActivity implements SignInDialog.Sign
     private final String CHAT_FRAGMENT_TAG = "chat_fragment";
     private final String CALENDAR_FRAGMENT_TAG = "calendar_fragment";
     private final String PROFILE_FRAGMENT_TAG = "profile_fragment";
+    private final String PICTURES_FRAGMENT_TAG = "pictures_fragment";
     private final String DEFAULT_FRAGMENT_TAG = "default_fragment";
 
     TextView textViewUsername;
@@ -125,6 +134,12 @@ public class MainActivity extends AppCompatActivity implements SignInDialog.Sign
                         title = "Pictures Fragment";
                         context = "this is a default pictures fragment";
                         openDefaultFragment(R.id.item_pictures, title, context);
+
+                        List<Picture> pictureList = firebaseManager.LoadPicturesData();
+                        PictureStorageFragment pictureStorageFragment = PictureStorageFragment.newInstance(pictureList);
+                        fragmentManager.beginTransaction()
+                                .replace(R.id.drawer_layout, pictureStorageFragment, PICTURES_FRAGMENT_TAG)
+                                .commit();
                         break;
                     case R.id.item_profile:
                         title = "Profile Fragment";
@@ -202,6 +217,16 @@ public class MainActivity extends AppCompatActivity implements SignInDialog.Sign
     @Override
     public void applyNotificationInfo(Notification notification) {
         firebaseManager.UpdateNotificationsDatabase(notification);
+    }
+
+    @Override
+    public void applyPictureInfo(Picture picture, String fileExtension) {
+        firebaseManager.UploadPicturesDatabase(picture, fileExtension);
+    }
+
+    @Override
+    public void deletePictureInfo(Picture picture) {
+        firebaseManager.DeletePictureFromDatabase(picture);
     }
 
     private void openLanguageSwitchDialog() {
