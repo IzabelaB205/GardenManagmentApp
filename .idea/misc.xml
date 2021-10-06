@@ -3,18 +3,17 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Users/itaym/AndroidStudioProjects/GardenManagmentApp/app/src/main/res/layout/activity_main.xml" value="0.11730072463768115" />
-        <entry key="..\:/Users/itaym/AndroidStudioProjects/GardenManagmentApp/app/src/main/res/layout/chat_fragment.xml" value="0.20520833333333333" />
-        <entry key="..\:/Users/itaym/AndroidStudioProjects/GardenManagmentApp/app/src/main/res/layout/fragment_chat.xml" value="0.2957427536231884" />
-        <entry key="..\:/Users/itaym/AndroidStudioProjects/GardenManagmentApp/app/src/main/res/layout/fragment_profile.xml" value="0.20520833333333333" />
-        <entry key="..\:/Users/itaym/AndroidStudioProjects/GardenManagmentApp/app/src/main/res/layout/message_card_view.xml" value="0.20520833333333333" />
-        <entry key="..\:/Users/itaym/AndroidStudioProjects/GardenManagmentApp/app/src/main/res/layout/notification_card_view.xml" value="0.20520833333333333" />
-        <entry key="..\:/Users/itaym/AndroidStudioProjects/GardenManagmentApp/app/src/main/res/layout/profile_fragment.xml" value="0.20520833333333333" />
-        <entry key="..\:/Users/itaym/AndroidStudioProjects/GardenManagmentApp/app/src/main/res/layout/sign_in_layout.xml" value="0.16666666666666666" />
+        <entry key="..\:/Users/mravi/AndroidStudioProjects/GardenManagmentApp/app/src/main/res/drawable/custom_input.xml" value="0.3828125" />
+        <entry key="..\:/Users/mravi/AndroidStudioProjects/GardenManagmentApp/app/src/main/res/drawable/ic_calendar.xml" value="0.3828125" />
+        <entry key="..\:/Users/mravi/AndroidStudioProjects/GardenManagmentApp/app/src/main/res/layout/activity_main.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/mravi/AndroidStudioProjects/GardenManagmentApp/app/src/main/res/layout/add_notification_layout.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/mravi/AndroidStudioProjects/GardenManagmentApp/app/src/main/res/layout/fragment_calendar.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/mravi/AndroidStudioProjects/GardenManagmentApp/app/src/main/res/layout/fragment_profile.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/mravi/AndroidStudioProjects/GardenManagmentApp/app/src/main/res/layout/sign_in_layout.xml" value="0.33" />
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">

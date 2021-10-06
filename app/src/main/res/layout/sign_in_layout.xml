@@ -1,19 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    android:padding="16dp">
+    android:padding="20dp"
+    android:color="@color/browser_actions_bg_grey">
 
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/email_edit_text"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:hint="@string/email_label"
             android:inputType="textEmailAddress"
-            android:id="@+id/email_edit_text"
-            android:hint="@string/email_label"/>
+            android:drawableStart="@drawable/ic_email"
+            android:drawablePadding="12dp"/>
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -23,18 +28,23 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/username_edit_text"
-            android:hint="@string/username_label"/>
+            android:hint="@string/username_label"
+            android:drawableStart="@drawable/ic_account"
+            android:drawablePadding="12dp"/>
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        app:endIconMode="password_toggle">
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/password_edit_text"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/password_edit_text"
             android:hint="@string/password_label"
-            android:inputType="textPassword"/>
+            android:drawableStart="@drawable/ic_lock"
+            android:drawablePadding="12dp"/>
     </com.google.android.material.textfield.TextInputLayout>
+
 
 </LinearLayout>
