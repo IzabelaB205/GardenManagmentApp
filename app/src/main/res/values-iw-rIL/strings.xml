@@ -30,4 +30,5 @@
     <string name="picture_select_button">בחר/י קובץ</string>
     <string name="file_name_hint">הזן את שם הקובץ</string>
     <string name="upload_button">להעלות</string>
+    <string name="message_label">הודעה</string>
 </resources>

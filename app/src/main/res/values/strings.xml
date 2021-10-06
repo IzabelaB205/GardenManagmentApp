@@ -29,4 +29,5 @@
     <string name="picture_select_button">choose file</string>
     <string name="file_name_hint">Enter file name</string>
     <string name="upload_button">upload</string>
+    <string name="message_label">Message</string>
 </resources>

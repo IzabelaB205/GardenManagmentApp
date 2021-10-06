@@ -5,6 +5,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -28,6 +30,8 @@ import java.util.List;
 public class ChatFragment extends Fragment {
 
     private RecyclerView recyclerView;
+    private ImageView chatImageView;
+    private TextView chatUsernameTextView;
     private FloatingActionButton floatingActionButton;
     private EditText messageEditText;
 
@@ -54,6 +58,8 @@ public class ChatFragment extends Fragment {
 
         ChatAdapter chatAdapter = new ChatAdapter(messages);
 
+        chatImageView = view.findViewById(R.id.chat_image_view);
+        chatUsernameTextView = view.findViewById(R.id.chat_username_text_view);
         floatingActionButton = view.findViewById(R.id.floating_btn_send);
         messageEditText = view.findViewById(R.id.message_edit_text);
 

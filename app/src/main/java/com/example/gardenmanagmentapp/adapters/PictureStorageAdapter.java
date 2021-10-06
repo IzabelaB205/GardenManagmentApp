@@ -1,6 +1,7 @@
 package com.example.gardenmanagmentapp.adapters;
 
 import android.content.Context;
+import android.net.Uri;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.Menu;
