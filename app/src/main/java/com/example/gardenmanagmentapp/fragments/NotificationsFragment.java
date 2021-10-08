@@ -53,6 +53,9 @@ public class NotificationsFragment extends Fragment {
         notificationsAdapter = new NotificationsAdapter(notificationList);
         recyclerView.setAdapter(notificationsAdapter);
 
+
+
+
         FloatingActionButton floatingActionButton = view.findViewById(R.id.notification_floating_button);
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override

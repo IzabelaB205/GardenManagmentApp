@@ -238,8 +238,8 @@ public class MainActivity extends AppCompatActivity implements SignInDialog.Sign
         DefaultFragment defaultFragment = DefaultFragment.newInstance(selectedItem, title, context);
 
         fragmentManager.beginTransaction()
-                .replace(R.id.drawer_layout, defaultFragment, DEFAULT_FRAGMENT_TAG)
-                .addToBackStack(null)
+                .replace(R.id.id_to_fill, defaultFragment, DEFAULT_FRAGMENT_TAG)
+//                .addToBackStack(null)
                 .commit();
     }
 }
