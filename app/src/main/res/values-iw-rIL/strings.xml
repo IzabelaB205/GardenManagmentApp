@@ -3,7 +3,7 @@
     <string name="app_name">אפליקציה לניהול גן</string>
     <string name="item_notifications">הודעות</string>
     <string name="item_calendar">לוח שנה</string>
-    <string name="item_pictures">תמונות</string>
+    <string name="item_pictures">גלריה</string>
     <string name="navigation_header_text">אורח</string>
     <string name="item_profile">פרופיל</string>
     <string name="item_settings">הגדרות</string>
@@ -33,4 +33,5 @@
     <string name="message_label">הודעה</string>
     <string name="title_label">כותרת</string>
     <string name="new_notification_message_hint">לחבר הודעה</string>
+    <string name="welcome_label">ברוכים הבאים ל MyGan</string>
 </resources>

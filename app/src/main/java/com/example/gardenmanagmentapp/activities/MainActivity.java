@@ -16,18 +16,16 @@ import android.widget.TextView;
 
 import com.example.gardenmanagmentapp.database.FirebaseDatabaseHelper;
 import com.example.gardenmanagmentapp.R;
+import com.example.gardenmanagmentapp.fragments.ChatFragment;
 import com.example.gardenmanagmentapp.fragments.DefaultFragment;
 import com.example.gardenmanagmentapp.fragments.NotificationsListFragment;
 import com.example.gardenmanagmentapp.fragments.PictureSelectionFragment;
-import com.example.gardenmanagmentapp.fragments.PictureStorageFragment;
+import com.example.gardenmanagmentapp.fragments.GalleryFragment;
 import com.example.gardenmanagmentapp.fragments.ProfileFragment;
 import com.example.gardenmanagmentapp.model.Picture;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -35,8 +33,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements PictureSelectionFragment.PictureUploadListener
-        ,PictureStorageFragment.PictureStorageListener{
+public class MainActivity extends AppCompatActivity implements PictureSelectionFragment.PictureUploadListener {
 
     private FirebaseDatabaseHelper firebaseManager;
     private FragmentManager fragmentManager;
@@ -98,7 +95,7 @@ public class MainActivity extends AppCompatActivity implements PictureSelectionF
                     case R.id.item_notifications:
                         title = "Notification Fragment";
                         context = "this is a default notification fragment";
-                        openDefaultFragment(R.id.item_notifications, title, context);
+                        //openDefaultFragment(R.id.item_notifications, title, context);
 
                         if(!textViewUsername.equals("Visitor")) {
                             fragmentManager.beginTransaction()
@@ -111,10 +108,10 @@ public class MainActivity extends AppCompatActivity implements PictureSelectionF
                     case R.id.item_chat:
                         title = "Chat Fragment";
                         context = "this is a default chat fragment";
-                        openDefaultFragment(R.id.item_chat, title, context);
-                        /*fragmentManager.beginTransaction()
+                        //openDefaultFragment(R.id.item_chat, title, context);
+                        fragmentManager.beginTransaction()
                                 .add(R.id.drawer_layout, new ChatFragment(), CHAT_FRAGMENT_TAG)
-                                .commit();*/
+                                .commit();
                         break;
                     case R.id.item_calendar:
                         title = "Calendar Fragment";
@@ -129,10 +126,8 @@ public class MainActivity extends AppCompatActivity implements PictureSelectionF
                         context = "this is a default pictures fragment";
                         openDefaultFragment(R.id.item_pictures, title, context);
 
-                        List<Picture> pictureList = firebaseManager.LoadPicturesData();
-                        PictureStorageFragment pictureStorageFragment = PictureStorageFragment.newInstance(pictureList);
                         fragmentManager.beginTransaction()
-                                .replace(R.id.drawer_layout, pictureStorageFragment, PICTURES_FRAGMENT_TAG)
+                                .replace(R.id.drawer_layout, new GalleryFragment(), PICTURES_FRAGMENT_TAG)
                                 .commit();
                         break;
                     case R.id.item_profile:
@@ -188,11 +183,6 @@ public class MainActivity extends AppCompatActivity implements PictureSelectionF
     @Override
     public void applyPictureInfo(Picture picture, String fileExtension) {
         firebaseManager.UploadPictureToFirebase(picture, fileExtension);
-    }
-
-    @Override
-    public void deletePictureInfo(Picture picture) {
-        firebaseManager.DeletePictureFromDatabase(picture);
     }
 
     private void openDefaultFragment(int selectedItem, String title, String context) {

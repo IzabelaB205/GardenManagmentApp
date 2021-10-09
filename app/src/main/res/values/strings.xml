@@ -2,7 +2,7 @@
     <string name="app_name">Garden Management App</string>
     <string name="item_notifications">Notifications</string>
     <string name="item_calendar">Calendar</string>
-    <string name="item_pictures">Pictures</string>
+    <string name="item_pictures">Gallery</string>
     <string name="navigation_header_text">Visitor</string>
     <string name="item_profile">Profile</string>
     <string name="item_settings">Settings</string>
@@ -32,4 +32,5 @@
     <string name="message_label">Message</string>
     <string name="title_label">Title</string>
     <string name="new_notification_message_hint">Compose message</string>
+    <string name="welcome_label">Welcome To MyGan</string>
 </resources>

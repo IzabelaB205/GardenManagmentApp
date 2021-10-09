@@ -35,7 +35,7 @@ import java.util.List;
 public class ChatFragment extends Fragment {
 
     private ImageView chatMessageImageView;
-    private TextView chatUsernameTextView;
+    private TextView chatTitleTextView;
     private FloatingActionButton floatingActionButton;
     private EditText chatMessageEditText;
     private RecyclerView recyclerView;
@@ -71,7 +71,7 @@ public class ChatFragment extends Fragment {
     private void initViews(View view) {
 
         chatMessageImageView = view.findViewById(R.id.chat_image_view);
-        chatUsernameTextView = view.findViewById(R.id.chat_username_text_view);
+        chatTitleTextView = view.findViewById(R.id.chat_title_text_view);
         floatingActionButton = view.findViewById(R.id.chat_send_floating_button);
         chatMessageEditText = view.findViewById(R.id.chat_message_edit_text);
     }
@@ -86,12 +86,13 @@ public class ChatFragment extends Fragment {
                 chatAdapter.notifyItemInserted(messages.size() - 1);
 
                 // TODO: 1. add message to firebase database
+                //      2.user notification to all garden's users
             }
         });
     }
 
     private void populateView() {
-        chatUsernameTextView.setText(profileUser.getFullName());
+        chatTitleTextView.setText(profileUser.getFullName());
 
         if (profileUser.getPictureLink() != null) {
             Glide.with(this)

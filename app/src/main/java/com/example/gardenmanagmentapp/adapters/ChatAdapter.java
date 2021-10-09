@@ -25,12 +25,14 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder
 
     public class ChatViewHolder extends RecyclerView.ViewHolder {
 
+        TextView titleTextView;
         TextView timeTextView;
         TextView messageTextView;
 
         public ChatViewHolder(@NonNull @NotNull View itemView) {
             super(itemView);
 
+            titleTextView = itemView.findViewById(R.id.chat_message_title);
             timeTextView = itemView.findViewById(R.id.chat_message_time);
             messageTextView = itemView.findViewById(R.id.chat_message_content);
         }
@@ -51,6 +53,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder
 
         ChatMessage message = messages.get(position);
 
+        holder.titleTextView.setText(message.getMessageUser());
         holder.timeTextView.setText(message.getMessageTime());
         holder.messageTextView.setText(message.getMessageText());
     }
