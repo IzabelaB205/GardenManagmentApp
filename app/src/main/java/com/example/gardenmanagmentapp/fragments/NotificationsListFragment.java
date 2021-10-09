@@ -14,12 +14,16 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.gardenmanagmentapp.adapters.NotificationsListAdapter;
 import com.example.gardenmanagmentapp.R;
+import com.example.gardenmanagmentapp.model.Notification;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.List;
+
 public class NotificationsListFragment extends Fragment {
 
+    private List<Notification> notifications;
     private FloatingActionButton floatingActionButton;
     private RecyclerView recyclerView;
     private NotificationsListAdapter notificationsAdapter;
