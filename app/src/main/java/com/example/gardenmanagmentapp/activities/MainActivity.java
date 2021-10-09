@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
@@ -16,12 +17,15 @@ import android.widget.TextView;
 
 import com.example.gardenmanagmentapp.database.FirebaseDatabaseHelper;
 import com.example.gardenmanagmentapp.R;
+import com.example.gardenmanagmentapp.fragments.CalendarFragment;
 import com.example.gardenmanagmentapp.fragments.ChatFragment;
 import com.example.gardenmanagmentapp.fragments.DefaultFragment;
+import com.example.gardenmanagmentapp.fragments.HomeFragment;
 import com.example.gardenmanagmentapp.fragments.NotificationsListFragment;
 import com.example.gardenmanagmentapp.fragments.PictureSelectionFragment;
 import com.example.gardenmanagmentapp.fragments.GalleryFragment;
 import com.example.gardenmanagmentapp.fragments.ProfileFragment;
+import com.example.gardenmanagmentapp.fragments.SignInFragment;
 import com.example.gardenmanagmentapp.model.Picture;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
@@ -33,7 +37,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements PictureSelectionFragment.PictureUploadListener {
+public class MainActivity extends AppCompatActivity implements PictureSelectionFragment.PictureUploadListener, HomeFragment.HomeFragmentListener {
 
     private FirebaseDatabaseHelper firebaseManager;
     private FragmentManager fragmentManager;
@@ -46,6 +50,8 @@ public class MainActivity extends AppCompatActivity implements PictureSelectionF
     private final String PROFILE_FRAGMENT_TAG = "profile_fragment";
     private final String PICTURES_FRAGMENT_TAG = "pictures_fragment";
     private final String DEFAULT_FRAGMENT_TAG = "default_fragment";
+    private final String HOME_FRAGMENT_TAG = "home_fragment";
+    private final String SIGN_IN_FRAGMENT_TAG = "sign_in_fragment";
 
     TextView textViewUsername;
 
@@ -57,6 +63,15 @@ public class MainActivity extends AppCompatActivity implements PictureSelectionF
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setTitle(R.string.app_name);
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setHomeAsUpIndicator(R.drawable.ic_menu);
+
+
         drawerLayout = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.navigation_view);
 
@@ -66,6 +81,8 @@ public class MainActivity extends AppCompatActivity implements PictureSelectionF
         fragmentManager = getSupportFragmentManager();
         firebaseManager = new FirebaseDatabaseHelper();
 
+        fragmentManager.beginTransaction().add(R.id.id_to_fill, new HomeFragment(), HOME_FRAGMENT_TAG).commit();
+
         mAuth = FirebaseAuth.getInstance();
         authStateListener = new FirebaseAuth.AuthStateListener() {
             @Override
@@ -74,11 +91,11 @@ public class MainActivity extends AppCompatActivity implements PictureSelectionF
 
                 if(user != null) {
                     textViewUsername.setText(user.getDisplayName());
-                    Snackbar.make(drawerLayout, "Welcome, " + textViewUsername.getText().toString() + "!", BaseTransientBottomBar.LENGTH_SHORT).show();
+                    //Snackbar.make(drawerLayout, "Welcome, " + textViewUsername.getText().toString() + "!", BaseTransientBottomBar.LENGTH_SHORT).show();
                 }
-                else {
+               /* else {
                     Snackbar.make(drawerLayout, "Wrong username or password!", BaseTransientBottomBar.LENGTH_SHORT).show();
-                }
+                }*/
             }
         };
 
@@ -92,51 +109,75 @@ public class MainActivity extends AppCompatActivity implements PictureSelectionF
 
                 switch(item.getItemId())
                 {
+                    case R.id.item_home:
+                        //openDefaultFragment(R.id.item_calendar, title, context);
+
+                        fragmentManager.beginTransaction()
+                                .replace(R.id.id_to_fill, new HomeFragment(), HOME_FRAGMENT_TAG)
+                                .addToBackStack(null)
+                                .commit();
+
+                        break;
                     case R.id.item_notifications:
                         title = "Notification Fragment";
                         context = "this is a default notification fragment";
                         //openDefaultFragment(R.id.item_notifications, title, context);
 
-                        if(!textViewUsername.equals("Visitor")) {
+                        fragmentManager.beginTransaction()
+                                .replace(R.id.id_to_fill, new NotificationsListFragment(), NOTIFICATIONS_FRAGMENT_TAG)
+                                .addToBackStack(null)
+                                .commit();
+
+                    /*    if(!textViewUsername.equals("Visitor")) {
                             fragmentManager.beginTransaction()
                                     .replace(R.id.drawer_layout, new NotificationsListFragment(), NOTIFICATIONS_FRAGMENT_TAG)
                                     .addToBackStack(null)
                                     .commit();
-                        }
+                        }*/
 
                         break;
                     case R.id.item_chat:
                         title = "Chat Fragment";
                         context = "this is a default chat fragment";
                         //openDefaultFragment(R.id.item_chat, title, context);
+
                         fragmentManager.beginTransaction()
-                                .add(R.id.drawer_layout, new ChatFragment(), CHAT_FRAGMENT_TAG)
+                                .replace(R.id.id_to_fill,  new ChatFragment(), CHAT_FRAGMENT_TAG)
+                                .addToBackStack(null)
                                 .commit();
+
                         break;
                     case R.id.item_calendar:
                         title = "Calendar Fragment";
                         context = "this is a default calendar fragment";
-                        openDefaultFragment(R.id.item_calendar, title, context);
-                        /*fragmentManager.beginTransaction()
-                                .add(R.id.drawer_layout, new CalendarFragment(), CALENDAR_FRAGMENT_TAG)
-                                .commit();*/
+
+                        fragmentManager.beginTransaction()
+                                .replace(R.id.id_to_fill,  new CalendarFragment(), CALENDAR_FRAGMENT_TAG)
+                                .addToBackStack(null)
+                                .commit();
+
                         break;
                     case R.id.item_pictures:
                         title = "Pictures Fragment";
                         context = "this is a default pictures fragment";
+/*
                         openDefaultFragment(R.id.item_pictures, title, context);
+*/
 
                         fragmentManager.beginTransaction()
-                                .replace(R.id.drawer_layout, new GalleryFragment(), PICTURES_FRAGMENT_TAG)
+                                .replace(R.id.id_to_fill, new GalleryFragment(), PICTURES_FRAGMENT_TAG)
+                                .addToBackStack(null)
                                 .commit();
                         break;
                     case R.id.item_profile:
                         title = "Profile Fragment";
                         context = "this is a default profile fragment";
+/*
                         openDefaultFragment(R.id.item_profile, title, context);
+*/
 
                         fragmentManager.beginTransaction()
-                                .replace(R.id.drawer_layout, new ProfileFragment(), PROFILE_FRAGMENT_TAG)
+                                .replace(R.id.id_to_fill, new ProfileFragment(), PROFILE_FRAGMENT_TAG)
                                 .commit();
                         break;
                 }
@@ -146,13 +187,6 @@ public class MainActivity extends AppCompatActivity implements PictureSelectionF
             }
         });
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setTitle(R.string.app_name);
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setHomeAsUpIndicator(R.drawable.ic_menu);
     }
 
     @Override
@@ -185,12 +219,26 @@ public class MainActivity extends AppCompatActivity implements PictureSelectionF
         firebaseManager.UploadPictureToFirebase(picture, fileExtension);
     }
 
+
     private void openDefaultFragment(int selectedItem, String title, String context) {
-        DefaultFragment defaultFragment = DefaultFragment.newInstance(selectedItem, title, context);
+
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction.add(R.id.id_to_fill, new HomeFragment(), HOME_FRAGMENT_TAG);
+        transaction.commit();
+
+/*        DefaultFragment defaultFragment = DefaultFragment.newInstance(selectedItem, title, context);
 
         fragmentManager.beginTransaction()
                 .replace(R.id.id_to_fill, defaultFragment, DEFAULT_FRAGMENT_TAG)
 //                .addToBackStack(null)
+                .commit();*/
+    }
+
+    @Override
+    public void displaySignInDialog() {
+        fragmentManager.beginTransaction()
+                .replace(R.id.id_to_fill, new SignInFragment(), SIGN_IN_FRAGMENT_TAG)
                 .commit();
     }
 }

@@ -7,17 +7,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true">
-    <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-    <RelativeLayout
-        android:id="@+id/main_something"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:background="@drawable/backgroundteddy4"
-        android:scaleType="fitXY"
-        tools:context=".activities.MainActivity">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
@@ -27,20 +21,22 @@
             android:theme="@style/ThemeOverlay.AppCompat.Dark"
             tools:ignore="MissingConstraints" />
 
-    </RelativeLayout>
-    <RelativeLayout
-        android:id="@+id/id_to_fill"
-        android:layout_below="@id/main_something"
-        android:layout_width="match_parent"
-        android:layout_height="fill_parent"
-        ></RelativeLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/id_to_fill"
+            android:orientation="vertical">
 
-    </RelativeLayout>
+        </LinearLayout>
+    </LinearLayout>
+
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/navigation_view"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
         app:headerLayout="@layout/navigation_header_layout"
-        app:menu="@menu/navigation_menu" />
+        app:menu="@menu/navigation_menu"
+        />
+
 </androidx.drawerlayout.widget.DrawerLayout>

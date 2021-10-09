@@ -4,10 +4,12 @@
     android:layout_height="105dp"
     android:background="@color/design_default_color_primary_dark"
     android:padding="16dp"
-    android:theme="@style/Theme.AppCompat.DayNight.DarkActionBar"
+    android:theme="@style/ThemeOverlay.AppCompat.Dark"
     android:gravity="bottom"
     android:orientation="vertical">
 
+
+   <!-- android:theme="@style/Theme.AppCompat.DayNight.DarkActionBar"-->
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
