@@ -12,7 +12,6 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.gardenmanagmentapp.R;
-import com.example.gardenmanagmentapp.dialogs.SignInDialog;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -46,7 +45,8 @@ public class DefaultFragment extends Fragment {
         signInTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                openSignInDialog();
+
+                //TODO: open sign-in fragment
             }
         });
 
@@ -79,10 +79,5 @@ public class DefaultFragment extends Fragment {
         contextTextView.setText(context);
 
         return view;
-    }
-
-    private void openSignInDialog() {
-        SignInDialog signInDialog = new SignInDialog();
-        signInDialog.show(getActivity().getSupportFragmentManager(), SignInDialog.TAG);
     }
 }

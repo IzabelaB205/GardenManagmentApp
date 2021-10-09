@@ -1,14 +1,17 @@
 package com.example.gardenmanagmentapp.model;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
-public class ChatMessage {
+public class ChatMessage implements Serializable {
 
     private String messageText;
     private String messageUser;
     private String messageTime;
+
+    public ChatMessage() {}
 
     public ChatMessage(String messageText, String messageUser) {
         this.messageText = messageText;
@@ -16,9 +19,6 @@ public class ChatMessage {
 
         // Initialize to current time
         messageTime = DateTimeFormatter.ofPattern("dd/MM/yyyy").format(LocalDateTime.now());
-    }
-
-    public ChatMessage() {
     }
 
     public String getMessageText() {

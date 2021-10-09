@@ -56,14 +56,14 @@
             android:layout_weight="5">
 
             <EditText
-                android:id="@+id/message_edit_text"
+                android:id="@+id/chat_message_edit_text"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:hint="@string/message_label" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/floating_btn_send"
+            android:id="@+id/chat_send_floating_button"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"

@@ -8,7 +8,6 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.FragmentManager;
 
 import android.annotation.SuppressLint;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.MenuItem;
@@ -16,17 +15,13 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.example.gardenmanagmentapp.database.FirebaseDatabaseHelper;
-import com.example.gardenmanagmentapp.dialogs.LanguageSwitchDialog;
 import com.example.gardenmanagmentapp.R;
-import com.example.gardenmanagmentapp.dialogs.SignInDialog;
 import com.example.gardenmanagmentapp.fragments.DefaultFragment;
-import com.example.gardenmanagmentapp.fragments.NotificationsFragment;
+import com.example.gardenmanagmentapp.fragments.NotificationsListFragment;
 import com.example.gardenmanagmentapp.fragments.PictureSelectionFragment;
 import com.example.gardenmanagmentapp.fragments.PictureStorageFragment;
 import com.example.gardenmanagmentapp.fragments.ProfileFragment;
-import com.example.gardenmanagmentapp.model.Notification;
 import com.example.gardenmanagmentapp.model.Picture;
-import com.example.gardenmanagmentapp.model.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
@@ -38,12 +33,9 @@ import com.google.firebase.auth.FirebaseUser;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements SignInDialog.SignInDialogListener
-        , NotificationsFragment.AddNotificationDialogListener
-        , PictureSelectionFragment.PictureUploadListener
+public class MainActivity extends AppCompatActivity implements PictureSelectionFragment.PictureUploadListener
         ,PictureStorageFragment.PictureStorageListener{
 
     private FirebaseDatabaseHelper firebaseManager;
@@ -108,12 +100,12 @@ public class MainActivity extends AppCompatActivity implements SignInDialog.Sign
                         context = "this is a default notification fragment";
                         openDefaultFragment(R.id.item_notifications, title, context);
 
-//                        if(!textViewUsername.equals("Visitor")) {
-//                            fragmentManager.beginTransaction()
-//                                    .replace(R.id.drawer_layout, new NotificationsFragment(new ArrayList<>()), NOTIFICATIONS_FRAGMENT_TAG)
-//                                    .addToBackStack(null)
-//                                    .commit();
-//                        }
+                        if(!textViewUsername.equals("Visitor")) {
+                            fragmentManager.beginTransaction()
+                                    .replace(R.id.drawer_layout, new NotificationsListFragment(), NOTIFICATIONS_FRAGMENT_TAG)
+                                    .addToBackStack(null)
+                                    .commit();
+                        }
 
                         break;
                     case R.id.item_chat:
@@ -151,12 +143,6 @@ public class MainActivity extends AppCompatActivity implements SignInDialog.Sign
                         fragmentManager.beginTransaction()
                                 .replace(R.id.drawer_layout, new ProfileFragment(), PROFILE_FRAGMENT_TAG)
                                 .commit();
-                        break;
-                    case R.id.item_settings:
-                        break;
-
-                    case R.id.item_language:
-                        openLanguageSwitchDialog();
                         break;
                 }
 
@@ -200,37 +186,13 @@ public class MainActivity extends AppCompatActivity implements SignInDialog.Sign
     }
 
     @Override
-    public void applyUserInfo(String email, String username, String password) {
-
-        mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-            @Override
-            public void onComplete(@NonNull @NotNull Task<AuthResult> task) {
-                if(task.isSuccessful()) {
-                    textViewUsername.setText(username);
-                    Snackbar.make(drawerLayout, "User sign-in successfully", BaseTransientBottomBar.LENGTH_SHORT).show();
-                }
-            }
-        });
-    }
-
-    @Override
-    public void applyNotificationInfo(Notification notification) {
-        firebaseManager.UpdateNotificationsDatabase(notification);
-    }
-
-    @Override
     public void applyPictureInfo(Picture picture, String fileExtension) {
-        firebaseManager.UploadPicturesDatabase(picture, fileExtension);
+        firebaseManager.UploadPictureToFirebase(picture, fileExtension);
     }
 
     @Override
     public void deletePictureInfo(Picture picture) {
         firebaseManager.DeletePictureFromDatabase(picture);
-    }
-
-    private void openLanguageSwitchDialog() {
-        LanguageSwitchDialog languageSwitchDialog = new LanguageSwitchDialog();
-        languageSwitchDialog.show(getSupportFragmentManager(), LanguageSwitchDialog.TAG);
     }
 
     private void openDefaultFragment(int selectedItem, String title, String context) {

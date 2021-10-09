@@ -124,7 +124,7 @@ public class ProfileFragment extends Fragment {
 
                 readProfileChanges();
                 helper = new FirebaseDatabaseHelper();
-                helper.saveUser(profileUser);
+                helper.SaveUser(profileUser);
             }
         });
 

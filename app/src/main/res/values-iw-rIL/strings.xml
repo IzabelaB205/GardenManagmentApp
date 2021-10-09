@@ -11,15 +11,15 @@
     <string name="firstname_text_view">שם פרטי</string>
     <string name="lastname_text_view">שם משפחה</string>
     <string name="item_language">שפה</string>
-    <string name="login_title">התחברות</string>
+    <string name="sign_in_title">התחברות</string>
     <string name="language_switch_title">בחר/י שפה</string>
     <string name="item_chat">צ\'אט</string>
     <string name="email_label">דואר אלקטרוני</string>
     <string name="notification_title">הודעה</string>
-    <string name="cancel_button">ביטול</string>
+    <string name="cancel_label">ביטול</string>
     <string name="save_button">שמור</string>
-    <string name="ok_button">אישור</string>
-    <string name="send_button">שלח</string>
+    <string name="ok_label">אישור</string>
+    <string name="send_label">שלח</string>
     <string name="item_profiles">משתמשים</string>
     <string name="item_home">בית</string>
     <string name="phone_label">טלפון</string>
@@ -31,4 +31,6 @@
     <string name="file_name_hint">הזן את שם הקובץ</string>
     <string name="upload_button">להעלות</string>
     <string name="message_label">הודעה</string>
+    <string name="title_label">כותרת</string>
+    <string name="new_notification_message_hint">לחבר הודעה</string>
 </resources>

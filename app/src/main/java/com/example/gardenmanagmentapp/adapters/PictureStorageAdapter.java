@@ -1,7 +1,6 @@
 package com.example.gardenmanagmentapp.adapters;
 
 import android.content.Context;
-import android.net.Uri;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -100,7 +99,7 @@ public class PictureStorageAdapter extends RecyclerView.Adapter<PictureStorageAd
             holder.pictureTitleTextView.setText(picture.getPictureName());
             Glide.with(context)
                     .load(picture.getPictureUrl())
-                    .placeholder(R.drawable.ic_profile)
+                    .placeholder(R.drawable.ic_person)
                     .circleCrop()
                     .into(holder.pictureContent);
 

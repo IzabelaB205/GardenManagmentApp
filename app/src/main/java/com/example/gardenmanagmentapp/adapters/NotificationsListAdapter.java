@@ -13,30 +13,28 @@ import com.example.gardenmanagmentapp.model.Notification;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class NotificationsAdapter extends RecyclerView.Adapter<NotificationsAdapter.NotificationViewHolder> {
+public class NotificationsListAdapter extends RecyclerView.Adapter<NotificationsListAdapter.NotificationViewHolder> {
 
-    private List<Notification> notificationList;
+    private List<Notification> notifications = new ArrayList<>();
 
-    public NotificationsAdapter(List<Notification> notificationList) {
-        this.notificationList = notificationList;
-    }
 
     public class NotificationViewHolder extends RecyclerView.ViewHolder {
 
-        TextView dateTextView;
         TextView titleTextView;
+        TextView timeTextView;
         TextView senderTextView;
-        TextView contextTextView;
+        TextView contentTextView;
 
         public NotificationViewHolder(@NonNull @NotNull View itemView) {
             super(itemView);
 
-            dateTextView = itemView.findViewById(R.id.notification_date_text_view);
             titleTextView = itemView.findViewById(R.id.notification_title_text_view);
+            timeTextView = itemView.findViewById(R.id.notification_time_text_view);
             senderTextView = itemView.findViewById(R.id.notification_sender_text_view);
-            contextTextView = itemView.findViewById(R.id.notification_context_text_view);
+            contentTextView = itemView.findViewById(R.id.notification_content_text_view);
         }
     }
 
@@ -45,23 +43,22 @@ public class NotificationsAdapter extends RecyclerView.Adapter<NotificationsAdap
     @Override
     public NotificationViewHolder onCreateViewHolder(@NonNull @NotNull ViewGroup parent, int viewType) {
 
-        View view  = LayoutInflater.from(parent.getContext()).inflate(R.layout.notification_card_view, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.notification_card_view, parent, false);
         return new NotificationViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull @NotNull NotificationsAdapter.NotificationViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull @NotNull NotificationsListAdapter.NotificationViewHolder holder, int position) {
+        Notification notification = notifications.get(position);
 
-        Notification notification = notificationList.get(position);
-
-        holder.dateTextView.setText(notification.getDate());
         holder.titleTextView.setText(notification.getTitle());
+        holder.timeTextView.setText(notification.getDate());
         holder.senderTextView.setText(notification.getSender());
-        holder.contextTextView.setText(notification.getContext());
+        holder.contentTextView.setText(notification.getContent());
     }
 
     @Override
     public int getItemCount() {
-        return notificationList.size();
+        return notifications.size();
     }
 }

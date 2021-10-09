@@ -93,7 +93,7 @@
         android:id="@+id/profile_cancel_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/cancel_button"
+        android:text="@string/cancel_label"
         android:visibility="gone"/>
 
 </LinearLayout>

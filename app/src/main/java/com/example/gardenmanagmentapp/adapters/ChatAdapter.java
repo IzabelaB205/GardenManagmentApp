@@ -1,6 +1,5 @@
 package com.example.gardenmanagmentapp.adapters;
 
-import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +13,6 @@ import com.example.gardenmanagmentapp.model.ChatMessage;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder>{
@@ -27,16 +25,14 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder
 
     public class ChatViewHolder extends RecyclerView.ViewHolder {
 
-        TextView userTextView;
         TextView timeTextView;
         TextView messageTextView;
 
         public ChatViewHolder(@NonNull @NotNull View itemView) {
             super(itemView);
 
-            userTextView = itemView.findViewById(R.id.message_user);
-            timeTextView = itemView.findViewById(R.id.message_time);
-            messageTextView = itemView.findViewById(R.id.message_text);
+            timeTextView = itemView.findViewById(R.id.chat_message_time);
+            messageTextView = itemView.findViewById(R.id.chat_message_content);
         }
     }
 
@@ -44,7 +40,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder
     @NotNull
     @Override
     public ChatViewHolder onCreateViewHolder(@NonNull @NotNull ViewGroup parent, int viewType) {
-        View view  = LayoutInflater.from(parent.getContext()).inflate(R.layout.message_card_view, parent, false);
+        View view  = LayoutInflater.from(parent.getContext()).inflate(R.layout.chat_message_card_view, parent, false);
         ChatAdapter.ChatViewHolder chatViewHolder = new ChatAdapter.ChatViewHolder(view);
 
         return chatViewHolder;
@@ -55,7 +51,6 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder
 
         ChatMessage message = messages.get(position);
 
-        holder.userTextView.setText(message.getMessageUser());
         holder.timeTextView.setText(message.getMessageTime());
         holder.messageTextView.setText(message.getMessageText());
     }

@@ -4,7 +4,7 @@ import com.google.firebase.database.Exclude;
 
 import java.io.Serializable;
 
-public class Picture {
+public class Picture implements Serializable{
 
     private String pictureName;
     private String pictureUrl;

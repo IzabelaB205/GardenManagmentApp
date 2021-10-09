@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/title_text_input"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/new_notification_title_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:hint="@string/title_label" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/content_text_input"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/new_notification_linearlayout"
+        android:layout_below="@+id/title_text_input">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/new_notification_content_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:hint="@string/new_notification_message_hint" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <LinearLayout
+        android:id="@+id/new_notification_linearlayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/new_notification_sent_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/send_label" />
+
+        <Button
+            android:id="@+id/new_notification_cancel_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="@string/cancel_label" />
+
+    </LinearLayout>
+
+</RelativeLayout>

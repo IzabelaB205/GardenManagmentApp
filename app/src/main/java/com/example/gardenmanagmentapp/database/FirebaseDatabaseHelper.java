@@ -61,7 +61,7 @@ public class FirebaseDatabaseHelper {
         });
     }
 
-    public void saveUser(User user) {
+    public void SaveUser(User user) {
         if (auth.getCurrentUser() != null) {
             DatabaseReference userReference = databaseReference.child("users")
                     .child(auth.getCurrentUser().getUid());
@@ -87,6 +87,17 @@ public class FirebaseDatabaseHelper {
         }
     }
 
+    public void UploadNotificationToFirebase(Notification notification) {
+        if (auth.getCurrentUser() != null) {
+            DatabaseReference reference =
+                    databaseReference
+                            .child("notifications")
+                            .child(String.valueOf(System.currentTimeMillis()));
+
+            //TODO: push notification to firebase database
+        }
+    }
+
     public void UpdateUsersDatabase(User user) {
         databaseReference.child("users").child(this.user.getUid()).setValue(user);
     }
@@ -95,7 +106,7 @@ public class FirebaseDatabaseHelper {
         databaseReference.child("notifications").child(user.getUid()).setValue(notification);
     }
 
-    public void UploadPicturesDatabase(Picture picture, String fileExtension) {
+    public void UploadPictureToFirebase(Picture picture, String fileExtension) {
         StorageReference fileReference = storageReference.child(System.currentTimeMillis() + "." + fileExtension);
         fileReference.putFile(Uri.parse(picture.getPictureUrl())).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override

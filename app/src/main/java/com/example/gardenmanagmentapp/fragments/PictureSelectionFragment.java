@@ -23,7 +23,6 @@ import androidx.fragment.app.Fragment;
 
 import com.bumptech.glide.Glide;
 import com.example.gardenmanagmentapp.R;
-import com.example.gardenmanagmentapp.dialogs.SignInDialog;
 import com.example.gardenmanagmentapp.model.Picture;
 
 import org.jetbrains.annotations.NotNull;

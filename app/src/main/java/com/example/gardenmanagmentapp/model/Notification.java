@@ -1,27 +1,31 @@
 package com.example.gardenmanagmentapp.model;
 
-public class Notification {
+import java.io.Serializable;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
-    private String context;
+public class Notification implements Serializable {
+
+    private String content;
     private String date;
     private String sender;
     private String title;
 
     public Notification() {}
 
-    public Notification(String context, String date, String sender, String title) {
-        this.context = context;
-        this.date = date;
+    public Notification(String content, String sender, String title) {
+        this.content = content;
+        this.date = createNotificationDate();
         this.sender = sender;
         this.title = title;
     }
 
-    public String getContext() {
-        return context;
+    public String getContent() {
+        return content;
     }
 
-    public void setContext(String context) {
-        this.context = context;
+    public void setContent(String content) {
+        this.content = content;
     }
 
     public String getDate() {
@@ -46,5 +50,11 @@ public class Notification {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    private String createNotificationDate() {
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+        LocalDateTime now = LocalDateTime.now();
+        return dtf.format(now);
     }
 }

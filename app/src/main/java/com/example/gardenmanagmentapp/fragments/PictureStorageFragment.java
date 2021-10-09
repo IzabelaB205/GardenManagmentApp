@@ -14,9 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.gardenmanagmentapp.R;
-import com.example.gardenmanagmentapp.adapters.NotificationsAdapter;
 import com.example.gardenmanagmentapp.adapters.PictureStorageAdapter;
-import com.example.gardenmanagmentapp.model.Notification;
 import com.example.gardenmanagmentapp.model.Picture;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
