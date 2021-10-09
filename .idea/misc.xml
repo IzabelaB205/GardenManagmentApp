@@ -5,16 +5,26 @@
       <map>
         <entry key="..\:/Users/mravi/AndroidStudioProjects/GardenManagmentApp/app/src/main/res/drawable/custom_input.xml" value="0.3828125" />
         <entry key="..\:/Users/mravi/AndroidStudioProjects/GardenManagmentApp/app/src/main/res/drawable/ic_calendar.xml" value="0.3828125" />
+        <entry key="..\:/Users/mravi/AndroidStudioProjects/GardenManagmentApp/app/src/main/res/drawable/ic_profile.xml" value="0.21822916666666667" />
         <entry key="..\:/Users/mravi/AndroidStudioProjects/GardenManagmentApp/app/src/main/res/layout/activity_main.xml" value="0.22" />
         <entry key="..\:/Users/mravi/AndroidStudioProjects/GardenManagmentApp/app/src/main/res/layout/add_notification_layout.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/mravi/AndroidStudioProjects/GardenManagmentApp/app/src/main/res/layout/chat_message_card_view.xml" value="0.2942708333333333" />
         <entry key="..\:/Users/mravi/AndroidStudioProjects/GardenManagmentApp/app/src/main/res/layout/fragment_calendar.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/mravi/AndroidStudioProjects/GardenManagmentApp/app/src/main/res/layout/fragment_chat.xml" value="0.2942708333333333" />
+        <entry key="..\:/Users/mravi/AndroidStudioProjects/GardenManagmentApp/app/src/main/res/layout/fragment_default.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/mravi/AndroidStudioProjects/GardenManagmentApp/app/src/main/res/layout/fragment_home.xml" value="0.33" />
+        <entry key="..\:/Users/mravi/AndroidStudioProjects/GardenManagmentApp/app/src/main/res/layout/fragment_notifications_list.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/mravi/AndroidStudioProjects/GardenManagmentApp/app/src/main/res/layout/fragment_profile.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/mravi/AndroidStudioProjects/GardenManagmentApp/app/src/main/res/layout/message_card_view.xml" value="0.20208333333333334" />
         <entry key="..\:/Users/mravi/AndroidStudioProjects/GardenManagmentApp/app/src/main/res/layout/navigation_header_layout.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/mravi/AndroidStudioProjects/GardenManagmentApp/app/src/main/res/layout/picture_card_view.xml" value="0.20208333333333334" />
+        <entry key="..\:/Users/mravi/AndroidStudioProjects/GardenManagmentApp/app/src/main/res/layout/picture_selection_layout.xml" value="0.20208333333333334" />
         <entry key="..\:/Users/mravi/AndroidStudioProjects/GardenManagmentApp/app/src/main/res/layout/sign_in_layout.xml" value="0.33" />
+        <entry key="..\:/Users/mravi/AndroidStudioProjects/GardenManagmentApp/app/src/main/res/menu/navigation_menu.xml" value="0.20520833333333333" />
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">

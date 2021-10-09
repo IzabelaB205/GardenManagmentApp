@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -44,6 +45,8 @@ public class NotificationsListFragment extends Fragment {
 
         initViews(view);
         setListeners(view);
+
+        Toast.makeText(view.getContext(), "NotificationsListFragment", Toast.LENGTH_SHORT).show();
 
         //TODO: Check if user is garden manager:
         // if true - make floating action button visible
