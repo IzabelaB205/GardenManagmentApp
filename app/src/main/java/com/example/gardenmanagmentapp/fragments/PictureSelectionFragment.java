@@ -66,7 +66,7 @@ public class PictureSelectionFragment extends Fragment {
                 String uri = pictureUri.toString();
                 String fileExtension = getFileExtension(pictureUri);
 
-                listener.applyPictureInfo(new Picture(pictureName, uri), fileExtension);
+                listener.applyPictureInfo(new Picture(uri), fileExtension);
             }
         });
 
