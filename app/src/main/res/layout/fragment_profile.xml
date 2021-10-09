@@ -6,86 +6,94 @@
     android:orientation="vertical"
     tools:context=".fragments.ProfileFragment">
 
-  <!--  <de.hdodenhof.circleimageview.CircleImageView
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/profile_image"
-        android:layout_width="96dp"
-        android:layout_height="96dp"
-        android:layout_gravity="center|top"
-        android:layout_marginTop="80dp"
-        android:layout_marginBottom="16dp"
-        android:src="@drawable/ic_profile"
-        app:civ_border_width="2dp"
-        app:civ_border_color="#FF000000"
-        android:clickable="true"
-        android:scaleType="centerCrop"/>-->
+    <ImageButton
+        android:id="@+id/profile_edit_image_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_settings" />
 
     <ImageView
-        android:id="@+id/profile_image"
+        android:id="@+id/profile_image_view"
         android:layout_width="150dp"
         android:layout_height="150dp"
         android:layout_gravity="center|top"
         android:layout_marginTop="80dp"
         android:layout_marginBottom="16dp"
-        android:src="@drawable/profile"
-        android:clickable="true"
-        android:scaleType="fitXY"/>
-
-
+        android:clickable="false"
+        android:scaleType="fitXY"
+        android:src="@drawable/profile" />
 
     <TextView
         android:id="@+id/profile_username_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:textStyle="bold"
+        android:text="Profile Name"
         android:textSize="20sp"
-        android:text="Profile Name"/>
+        android:textStyle="bold" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/profile_id_edit_text"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_margin="8dp"
-            android:id="@+id/profile_id_edit_text"
             android:hint="@string/id_label"
-            android:inputType="number"/>
+            android:inputType="number" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/profile_email_edit_text"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_margin="8dp"
-            android:id="@+id/profile_email_edit_text"
             android:hint="@string/email_label" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/profile_phone_edit_text"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_margin="8dp"
-            android:id="@+id/profile_phone_edit_text"
             android:hint="@string/phone_label"
-            android:inputType="phone"/>
+            android:inputType="phone" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/profile_password_edit_text"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_margin="8dp"
-            android:id="@+id/profile_password_edit_text"
             android:hint="@string/password_label" />
     </com.google.android.material.textfield.TextInputLayout>
+
+    <Button
+        android:id="@+id/profile_save_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/save_button"
+        android:visibility="gone"/>
+
+    <Button
+        android:id="@+id/profile_cancel_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/cancel_button"
+        android:visibility="gone"/>
 
 </LinearLayout>

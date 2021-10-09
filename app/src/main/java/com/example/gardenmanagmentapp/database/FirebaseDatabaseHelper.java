@@ -57,9 +57,34 @@ public class FirebaseDatabaseHelper {
         auth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull @NotNull Task<AuthResult> task) {
-
             }
         });
+    }
+
+    public void saveUser(User user) {
+        if (auth.getCurrentUser() != null) {
+            DatabaseReference userReference = databaseReference.child("users")
+                    .child(auth.getCurrentUser().getUid());
+
+            userReference.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<DataSnapshot> task) {
+                    if (task.isSuccessful()) {
+                        User updatedUser = task.getResult().getValue(User.class);
+                        updatedUser.setFullName(user.getFullName());
+                        updatedUser.setEmail(user.getEmail());
+                        updatedUser.setPictureLink(user.getPictureLink());
+                        updatedUser.setPassword(user.getPassword());
+                        updatedUser.setPhone(user.getPhone());
+                        userReference.setValue(updatedUser);
+
+//                        if (listener != null) {
+//                            listener.OnRealtimeUserSaved(updatedUser);
+//                        }
+                    }
+                }
+            });
+        }
     }
 
     public void UpdateUsersDatabase(User user) {

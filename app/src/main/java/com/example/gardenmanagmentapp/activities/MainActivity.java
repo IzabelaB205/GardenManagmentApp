@@ -23,8 +23,10 @@ import com.example.gardenmanagmentapp.fragments.DefaultFragment;
 import com.example.gardenmanagmentapp.fragments.NotificationsFragment;
 import com.example.gardenmanagmentapp.fragments.PictureSelectionFragment;
 import com.example.gardenmanagmentapp.fragments.PictureStorageFragment;
+import com.example.gardenmanagmentapp.fragments.ProfileFragment;
 import com.example.gardenmanagmentapp.model.Notification;
 import com.example.gardenmanagmentapp.model.Picture;
+import com.example.gardenmanagmentapp.model.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
@@ -146,12 +148,9 @@ public class MainActivity extends AppCompatActivity implements SignInDialog.Sign
                         context = "this is a default profile fragment";
                         openDefaultFragment(R.id.item_profile, title, context);
 
-//                        //TODO: read user information from firebase
-//                        User user = new User("Izabela", "12345679", "054-43857654", "izabela@gmail.com","111222333","");
-//                        ProfileFragment profileFragment = ProfileFragment.newInstance(user);
-//                        fragmentManager.beginTransaction()
-//                                .add(R.id.drawer_layout, profileFragment, PROFILE_FRAGMENT_TAG)
-//                                .commit();
+                        fragmentManager.beginTransaction()
+                                .replace(R.id.drawer_layout, new ProfileFragment(), PROFILE_FRAGMENT_TAG)
+                                .commit();
                         break;
                     case R.id.item_settings:
                         break;
