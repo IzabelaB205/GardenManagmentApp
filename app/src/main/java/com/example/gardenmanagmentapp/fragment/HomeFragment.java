@@ -1,24 +1,28 @@
 package com.example.gardenmanagmentapp.fragment;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.example.gardenmanagmentapp.R;
+import com.example.gardenmanagmentapp.viewmodel.AuthenticationViewModel;
+import com.google.firebase.auth.FirebaseUser;
 
 import org.jetbrains.annotations.NotNull;
 
 public class HomeFragment extends Fragment {
 
-    private HomeFragmentListener listener;
+    private Button signInButton;
+    private Button signOutButton;
+    private AuthenticationViewModel viewModel;
 
     @Nullable
     @org.jetbrains.annotations.Nullable
@@ -28,33 +32,54 @@ public class HomeFragment extends Fragment {
     }
 
     @Override
-    public void onAttach(@NonNull @NotNull Context context) {
-        super.onAttach(context);
-
-        try {
-            listener = (HomeFragmentListener) context;
-        } catch (ClassCastException e) {
-            throw new ClassCastException(context.toString() +
-                    "must implement SignInDialogListener");
-        }
-    }
-
-    @Override
     public void onViewCreated(@NonNull @NotNull View view, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        Button signInBtn = view.findViewById(R.id.default_sign_in_btn);
-        signInBtn.setOnClickListener(new View.OnClickListener() {
+        initViews(view);
+        setListeners();
+
+        signOutButton.setVisibility(View.INVISIBLE);
+
+        viewModel = new ViewModelProvider(requireActivity()).get(AuthenticationViewModel.class);
+        viewModel.getFirebaseUser().observe(getViewLifecycleOwner(), new Observer<FirebaseUser>() {
+            @Override
+            public void onChanged(FirebaseUser firebaseUser) {
+                if(firebaseUser != null) {
+                    signInButton.setVisibility(View.INVISIBLE);
+                    signOutButton.setVisibility(View.VISIBLE);
+                }
+                else {
+                    signInButton.setVisibility(View.VISIBLE);
+                    signOutButton.setVisibility(View.INVISIBLE);
+                }
+            }
+        });
+
+    }
+
+    private void initViews(View view) {
+        signInButton = view.findViewById(R.id.default_sign_in_btn);
+        signOutButton = view.findViewById(R.id.default_sign_out_btn);
+    }
+
+    private void setListeners() {
+        signInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(view.getContext(), "signInBtn", Toast.LENGTH_SHORT).show();
-                listener.displaySignInDialog();
+
+                getActivity().getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.id_to_fill, new SignInFragment(), "SIGN_IN_FRAGMENT_TAG")
+                        .addToBackStack(null)
+                        .commit();
+            }
+        });
+
+        signOutButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                viewModel.SignOut();
             }
         });
     }
-
-    public interface HomeFragmentListener {
-        void displaySignInDialog();
-    }
-
 }

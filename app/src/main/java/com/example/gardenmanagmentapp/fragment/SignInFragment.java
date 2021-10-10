@@ -1,7 +1,5 @@
 package com.example.gardenmanagmentapp.fragment;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,9 +9,14 @@ import android.widget.Button;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.example.gardenmanagmentapp.R;
+import com.example.gardenmanagmentapp.viewmodel.AuthenticationViewModel;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.firebase.auth.FirebaseUser;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -22,6 +25,7 @@ public class SignInFragment extends Fragment {
     private TextInputEditText editTextEmail;
     private TextInputEditText editTextPassword;
     private Button buttonSignIn;
+    private AuthenticationViewModel viewModel;
 
     @Nullable
     @org.jetbrains.annotations.Nullable
@@ -37,6 +41,17 @@ public class SignInFragment extends Fragment {
 
         initViews(view);
         setListeners();
+
+        viewModel = new ViewModelProvider(requireActivity()).get(AuthenticationViewModel.class);
+        viewModel.getFirebaseUser().observe(getViewLifecycleOwner(), new Observer<FirebaseUser>() {
+            @Override
+            public void onChanged(FirebaseUser firebaseUser) {
+                if(firebaseUser != null) {
+                    Snackbar.make(view, getString(R.string.sign_in_successfully), Snackbar.LENGTH_SHORT).show();
+                    getActivity().getSupportFragmentManager().popBackStack();
+                }
+            }
+        });
     }
 
     private void initViews(View view) {
@@ -50,7 +65,16 @@ public class SignInFragment extends Fragment {
         buttonSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String email = editTextEmail.getText().toString();
+                String password = editTextPassword.getText().toString();
 
+                if (!email.trim().isEmpty() && !password.trim().isEmpty()) {
+                    viewModel = new ViewModelProvider(requireActivity()).get(AuthenticationViewModel.class);
+                    viewModel.SignIn(email, password);
+                }
+                else {
+                    Snackbar.make(v, getString(R.string.provide_email_and_password), Snackbar.LENGTH_SHORT).show();
+                }
             }
         });
     }

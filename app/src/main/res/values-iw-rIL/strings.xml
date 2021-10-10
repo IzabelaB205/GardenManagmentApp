@@ -35,4 +35,7 @@
     <string name="new_notification_message_hint">לחבר הודעה</string>
     <string name="welcome_label">ברוכים הבאים ל MyGan</string>
     <string name="chat_title">קבוצת MyGan</string>
+    <string name="provide_email_and_password">נא לספק אימייל וסיסמא</string>
+    <string name="sign_in_successfully">התחברת בהצלחה!</string>
+    <string name="default_sign_out_text"><u>התנתק מהמערכת</u></string>
 </resources>

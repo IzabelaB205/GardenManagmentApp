@@ -8,21 +8,35 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class FirebaseRepository {
 
     private FirebaseAuth firebaseAuth;
     private DatabaseReference databaseReference;
 
+    private static FirebaseRepository instance;
     private FirebaseRepositoryListener listener;
 
-    public FirebaseRepository() {
+    public static FirebaseRepository getInstance() {
+        if(instance == null) {
+            instance = new FirebaseRepository();
+        }
+        return instance;
+    }
 
+    private FirebaseRepository() {
+        firebaseAuth = FirebaseAuth.getInstance();
+        databaseReference = FirebaseDatabase.getInstance().getReference();
     }
 
     public interface FirebaseRepositoryListener {
 
         void OnSignInSuccessful();
+    }
+
+    public void setListener(FirebaseRepositoryListener listener) {
+        this.listener = listener;
     }
 
     public void SignIn(String email, String password) {

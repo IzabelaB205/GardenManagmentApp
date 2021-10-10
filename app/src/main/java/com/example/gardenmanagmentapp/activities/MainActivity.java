@@ -7,12 +7,14 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.gardenmanagmentapp.repository.FirebaseDatabaseHelper;
@@ -25,18 +27,20 @@ import com.example.gardenmanagmentapp.fragment.GalleryFragment;
 import com.example.gardenmanagmentapp.fragment.ProfileFragment;
 import com.example.gardenmanagmentapp.fragment.SignInFragment;
 import com.example.gardenmanagmentapp.model.Picture;
+import com.example.gardenmanagmentapp.viewmodel.AuthenticationViewModel;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 import org.jetbrains.annotations.NotNull;
 
-public class MainActivity extends AppCompatActivity implements PictureSelectionFragment.PictureUploadListener, HomeFragment.HomeFragmentListener {
+public class MainActivity extends AppCompatActivity implements PictureSelectionFragment.PictureUploadListener/*, HomeFragment.HomeFragmentListener */{
 
     private FirebaseDatabaseHelper firebaseManager;
     private FragmentManager fragmentManager;
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener authStateListener;
+    private AuthenticationViewModel viewModel;
 
     private final String NOTIFICATIONS_FRAGMENT_TAG = "notifications_fragment";
     private final String CHAT_FRAGMENT_TAG = "chat_fragment";
@@ -47,10 +51,9 @@ public class MainActivity extends AppCompatActivity implements PictureSelectionF
     private final String HOME_FRAGMENT_TAG = "home_fragment";
     private final String SIGN_IN_FRAGMENT_TAG = "sign_in_fragment";
 
-    TextView textViewUsername;
-
-    DrawerLayout drawerLayout;
-    NavigationView navigationView;
+    private TextView textViewUsername;
+    private DrawerLayout drawerLayout;
+    private NavigationView navigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,6 +80,8 @@ public class MainActivity extends AppCompatActivity implements PictureSelectionF
 
         fragmentManager.beginTransaction().add(R.id.id_to_fill, new HomeFragment(), HOME_FRAGMENT_TAG).commit();
 
+        viewModel = new ViewModelProvider(this).get(AuthenticationViewModel.class);
+
         mAuth = FirebaseAuth.getInstance();
         authStateListener = new FirebaseAuth.AuthStateListener() {
             @Override
@@ -84,12 +89,11 @@ public class MainActivity extends AppCompatActivity implements PictureSelectionF
                 final FirebaseUser user = firebaseAuth.getCurrentUser();
 
                 if(user != null) {
-                    textViewUsername.setText(user.getDisplayName());
-                    //Snackbar.make(drawerLayout, "Welcome, " + textViewUsername.getText().toString() + "!", BaseTransientBottomBar.LENGTH_SHORT).show();
+
                 }
-               /* else {
-                    Snackbar.make(drawerLayout, "Wrong username or password!", BaseTransientBottomBar.LENGTH_SHORT).show();
-                }*/
+               else {
+                   viewModel.SignOut();
+                }
             }
         };
 
@@ -219,10 +223,10 @@ public class MainActivity extends AppCompatActivity implements PictureSelectionF
                 .commit();*/
     }
 
-    @Override
-    public void displaySignInDialog() {
-        fragmentManager.beginTransaction()
-                .replace(R.id.id_to_fill, new SignInFragment(), SIGN_IN_FRAGMENT_TAG)
-                .commit();
-    }
+//    @Override
+//    public void displaySignInDialog() {
+//        fragmentManager.beginTransaction()
+//                .replace(R.id.id_to_fill, new SignInFragment(), SIGN_IN_FRAGMENT_TAG)
+//                .commit();
+//    }
 }

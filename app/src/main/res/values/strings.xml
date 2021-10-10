@@ -34,4 +34,7 @@
     <string name="new_notification_message_hint">Compose message</string>
     <string name="welcome_label">Welcome To MyGan</string>
     <string name="chat_title">My Gan Chat Group</string>
+    <string name="provide_email_and_password">Provide email and password</string>
+    <string name="sign_in_successfully">Sign-in successfully!</string>
+    <string name="default_sign_out_text"><u>Sign-out</u></string>
 </resources>
