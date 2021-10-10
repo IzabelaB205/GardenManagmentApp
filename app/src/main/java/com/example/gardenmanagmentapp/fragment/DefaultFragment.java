@@ -63,9 +63,6 @@ public class DefaultFragment extends Fragment {
             case R.id.item_chat:
                 image = R.drawable.chat;
                 break;
-            case R.id.item_calendar:
-                image = R.drawable.calendar;
-                break;
             case R.id.item_pictures:
                 image = R.drawable.camera;
                 break;

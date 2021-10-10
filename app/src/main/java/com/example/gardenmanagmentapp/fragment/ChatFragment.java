@@ -25,11 +25,16 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.gardenmanagmentapp.adapters.ChatAdapter;
-import com.example.gardenmanagmentapp.database.FirebaseDatabaseHelper;
+import com.example.gardenmanagmentapp.repository.FirebaseDatabaseHelper;
 import com.example.gardenmanagmentapp.model.ChatMessage;
 import com.example.gardenmanagmentapp.R;
 import com.example.gardenmanagmentapp.model.User;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.messaging.FirebaseMessaging;
 
 import org.jetbrains.annotations.NotNull;
@@ -49,7 +54,7 @@ public class ChatFragment extends Fragment {
     private ChatAdapter chatAdapter;
 
     private User profileUser = new User("izabela", "123456", "0546375664", "izabelab@gmail.com", "1234567", null);
-    private List<ChatMessage> messages = new ArrayList<>();
+    private List<ChatMessage> messages;
 
     private BroadcastReceiver receiver;
     private FirebaseDatabaseHelper firebaseHelper = new FirebaseDatabaseHelper();
@@ -73,18 +78,18 @@ public class ChatFragment extends Fragment {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        firebaseMessaging.subscribeToTopic("Chat");
-
-        initViews(view);
-        setListeners(view);
-
-        // TODO: load user's messages from firebase database
+        messages = new ArrayList<>();
 
         chatAdapter = new ChatAdapter(messages);
         recyclerView.setAdapter(chatAdapter);
 
-        messages = firebaseHelper.LoadChatMessagesFromFirebase();
+        firebaseMessaging.subscribeToTopic("Chat");
 
+        initViews(view);
+        setListeners(view);
+        loadChatMessagesFromFirebase();
+
+        // TODO: check how to send message to all garden's message
         receiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
@@ -111,6 +116,26 @@ public class ChatFragment extends Fragment {
 
         floatingActionButton = view.findViewById(R.id.chat_send_floating_button);
         chatMessageEditText = view.findViewById(R.id.chat_message_edit_text);
+    }
+
+    private void loadChatMessagesFromFirebase() {
+        DatabaseReference mRootRef = FirebaseDatabase.getInstance().getReference();
+        mRootRef.child("chat").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    for (DataSnapshot child : snapshot.getChildren()) {
+                        ChatMessage message = child.getValue(ChatMessage.class);
+                        messages.add(message);
+                    }
+                }
+                chatAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull @NotNull DatabaseError error) {
+            }
+        });
     }
 
     private void setListeners(View view) {

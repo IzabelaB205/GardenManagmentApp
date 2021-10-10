@@ -15,9 +15,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
-import com.example.gardenmanagmentapp.database.FirebaseDatabaseHelper;
+import com.example.gardenmanagmentapp.repository.FirebaseDatabaseHelper;
 import com.example.gardenmanagmentapp.R;
-import com.example.gardenmanagmentapp.fragment.CalendarFragment;
 import com.example.gardenmanagmentapp.fragment.ChatFragment;
 import com.example.gardenmanagmentapp.fragment.HomeFragment;
 import com.example.gardenmanagmentapp.fragment.NotificationsListFragment;
@@ -138,16 +137,6 @@ public class MainActivity extends AppCompatActivity implements PictureSelectionF
 
                         fragmentManager.beginTransaction()
                                 .replace(R.id.id_to_fill,  new ChatFragment(), CHAT_FRAGMENT_TAG)
-                                .addToBackStack(null)
-                                .commit();
-
-                        break;
-                    case R.id.item_calendar:
-                        title = "Calendar Fragment";
-                        context = "this is a default calendar fragment";
-
-                        fragmentManager.beginTransaction()
-                                .replace(R.id.id_to_fill,  new CalendarFragment(), CALENDAR_FRAGMENT_TAG)
                                 .addToBackStack(null)
                                 .commit();
 

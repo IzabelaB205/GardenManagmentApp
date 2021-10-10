@@ -21,12 +21,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.gardenmanagmentapp.adapters.NotificationsListAdapter;
 import com.example.gardenmanagmentapp.R;
-import com.example.gardenmanagmentapp.database.FirebaseDatabaseHelper;
-import com.example.gardenmanagmentapp.model.ChatMessage;
+import com.example.gardenmanagmentapp.repository.FirebaseDatabaseHelper;
 import com.example.gardenmanagmentapp.model.Notification;
 import com.example.gardenmanagmentapp.viewmodel.NotificationsViewModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -151,12 +149,12 @@ public class NotificationsListFragment extends Fragment {
 
             @Override
             public void onCancelled(@NonNull @NotNull DatabaseError error) {
-
             }
         });
     }
 
     private String createNotificationDate() {
+
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
         LocalDateTime now = LocalDateTime.now();
         return dtf.format(now);

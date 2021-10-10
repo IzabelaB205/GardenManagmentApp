@@ -5,42 +5,33 @@
 
         <item
             android:id="@+id/item_home"
-            android:title="@string/item_home"
+            android:checked="false"
             android:icon="@drawable/ic_home"
-            android:checked="false"/>
+            android:title="@string/item_home" />
 
         <item
             android:id="@+id/item_notifications"
-            android:title="@string/item_notifications"
+            android:checked="false"
             android:icon="@drawable/ic_notifications"
-            android:checked="false"/>
+            android:title="@string/item_notifications" />
 
         <item
             android:id="@+id/item_chat"
-            android:title="@string/item_chat"
+            android:checked="false"
             android:icon="@drawable/ic_message"
-            android:checked="false"/>
-
-
-        <item
-            android:id="@+id/item_calendar"
-            android:title="@string/item_calendar"
-            android:icon="@drawable/ic_calendar"
-            android:checked="false"/>
-
+            android:title="@string/item_chat" />
 
         <item
             android:id="@+id/item_pictures"
-            android:title="@string/item_pictures"
+            android:checked="false"
             android:icon="@drawable/ic_photo_library"
-            android:checked="false"/>
-
+            android:title="@string/item_pictures" />
 
         <item
             android:id="@+id/item_profile"
-            android:title="@string/item_profile"
+            android:checked="false"
             android:icon="@drawable/ic_person"
-            android:checked="false"/>
+            android:title="@string/item_profile" />
 
     </group>
 

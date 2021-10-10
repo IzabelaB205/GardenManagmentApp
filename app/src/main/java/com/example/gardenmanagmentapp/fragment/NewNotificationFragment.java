@@ -20,7 +20,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.gardenmanagmentapp.R;
 import com.example.gardenmanagmentapp.adapters.NotificationsListAdapter;
-import com.example.gardenmanagmentapp.database.FirebaseDatabaseHelper;
+import com.example.gardenmanagmentapp.repository.FirebaseDatabaseHelper;
 import com.example.gardenmanagmentapp.model.Notification;
 import com.example.gardenmanagmentapp.viewmodel.NotificationsViewModel;
 import com.google.android.material.textfield.TextInputEditText;

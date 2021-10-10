@@ -13,9 +13,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.gardenmanagmentapp.R;
 import com.example.gardenmanagmentapp.adapters.GalleryAdapter;
-import com.example.gardenmanagmentapp.database.FirebaseDatabaseHelper;
+import com.example.gardenmanagmentapp.repository.FirebaseDatabaseHelper;
 import com.example.gardenmanagmentapp.model.Picture;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -24,8 +29,10 @@ import java.util.List;
 
 public class GalleryFragment extends Fragment {
 
-    private List<Picture> pictures = new ArrayList<>();
+    private List<Picture> pictures;
     private FloatingActionButton picturesFloatingButton;
+    private GalleryAdapter pictureStorageAdapter;
+
     private FirebaseDatabaseHelper firebaseHelper = new FirebaseDatabaseHelper();
 
     public GalleryFragment() {};
@@ -51,14 +58,14 @@ public class GalleryFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         //TODO : load pictures from firebase storage
-        //pictures = firebaseHelper.LoadPicturesData();
+        pictures = new ArrayList<>();
 
-        GalleryAdapter pictureStorageAdapter = new GalleryAdapter(getContext(), pictures);
+        pictureStorageAdapter = new GalleryAdapter(getContext(), pictures);
         recyclerView.setAdapter(pictureStorageAdapter);
 
         initViews(view);
         setListeners(view);
-
+        loadPicturesFromFirebase();
 
         //TODO: check if garden manager - true - make floating button visible.
         //otherwise, do nothing.
@@ -74,6 +81,26 @@ public class GalleryFragment extends Fragment {
                         .replace(R.id.drawer_layout, pictureSelectionFragment, PictureSelectionFragment.PICTURE_SELECTION_FRAGMENT)
                         .addToBackStack(null)
                         .commit();
+            }
+        });
+    }
+
+    private void loadPicturesFromFirebase() {
+        DatabaseReference mRootRef = FirebaseDatabase.getInstance().getReference();
+        mRootRef.child("uploads").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    for (DataSnapshot child : snapshot.getChildren()) {
+                        Picture picture = child.getValue(Picture.class);
+                        pictures.add(picture);
+                    }
+                }
+                pictureStorageAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull @NotNull DatabaseError error) {
             }
         });
     }

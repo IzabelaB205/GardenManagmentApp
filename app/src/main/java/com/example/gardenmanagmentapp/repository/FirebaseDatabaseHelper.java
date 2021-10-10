@@ -1,9 +1,6 @@
-package com.example.gardenmanagmentapp.database;
+package com.example.gardenmanagmentapp.repository;
 
-import android.content.ContentResolver;
 import android.net.Uri;
-import android.os.Handler;
-import android.webkit.MimeTypeMap;
 
 import androidx.annotation.NonNull;
 

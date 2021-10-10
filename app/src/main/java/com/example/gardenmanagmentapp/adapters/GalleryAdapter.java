@@ -57,7 +57,7 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.GalleryV
             Picture picture = pictures.get(position);
 
             Glide.with(context)
-                    .load(picture.getPictureUrl())
+                    .load(picture.getKey())
                     .placeholder(R.drawable.ic_person)
                     .circleCrop()
                     .into(holder.galleryImageView);

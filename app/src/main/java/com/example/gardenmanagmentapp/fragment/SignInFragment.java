@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -20,34 +21,14 @@ public class SignInFragment extends Fragment {
 
     private TextInputEditText editTextEmail;
     private TextInputEditText editTextPassword;
+    private Button buttonSignIn;
 
     @Nullable
     @org.jetbrains.annotations.Nullable
     @Override
     public View onCreateView(@NonNull @NotNull LayoutInflater inflater, @Nullable @org.jetbrains.annotations.Nullable ViewGroup container, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        View view = inflater.inflate(R.layout.fragment_sign_in, container, false);
-
-        builder.setView(view)
-                .setTitle(R.string.sign_in_title)
-                .setNegativeButton(R.string.cancel_label, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-
-                    }
-                })
-                .setPositiveButton(R.string.ok_label, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        String email = editTextEmail.getText().toString();
-                        String password = editTextPassword.getText().toString();
-
-                        //TODO: sign-in to firebase
-                    }
-                });
-
-        return view;
+        return inflater.inflate(R.layout.fragment_sign_in, container, false);
     }
 
     @Override
@@ -55,11 +36,22 @@ public class SignInFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         initViews(view);
+        setListeners();
     }
 
     private void initViews(View view) {
 
         editTextEmail = view.findViewById(R.id.sign_in_email_edit_text);
         editTextPassword = view.findViewById(R.id.sign_in_password_edit_text);
+        buttonSignIn = view.findViewById(R.id.sign_in_button);
+    }
+
+    private void setListeners() {
+        buttonSignIn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
     }
 }
