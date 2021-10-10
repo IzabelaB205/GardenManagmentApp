@@ -17,25 +17,20 @@ import android.widget.TextView;
 
 import com.example.gardenmanagmentapp.database.FirebaseDatabaseHelper;
 import com.example.gardenmanagmentapp.R;
-import com.example.gardenmanagmentapp.fragments.CalendarFragment;
-import com.example.gardenmanagmentapp.fragments.ChatFragment;
-import com.example.gardenmanagmentapp.fragments.DefaultFragment;
-import com.example.gardenmanagmentapp.fragments.HomeFragment;
-import com.example.gardenmanagmentapp.fragments.NotificationsListFragment;
-import com.example.gardenmanagmentapp.fragments.PictureSelectionFragment;
-import com.example.gardenmanagmentapp.fragments.GalleryFragment;
-import com.example.gardenmanagmentapp.fragments.ProfileFragment;
-import com.example.gardenmanagmentapp.fragments.SignInFragment;
+import com.example.gardenmanagmentapp.fragment.CalendarFragment;
+import com.example.gardenmanagmentapp.fragment.ChatFragment;
+import com.example.gardenmanagmentapp.fragment.HomeFragment;
+import com.example.gardenmanagmentapp.fragment.NotificationsListFragment;
+import com.example.gardenmanagmentapp.fragment.PictureSelectionFragment;
+import com.example.gardenmanagmentapp.fragment.GalleryFragment;
+import com.example.gardenmanagmentapp.fragment.ProfileFragment;
+import com.example.gardenmanagmentapp.fragment.SignInFragment;
 import com.example.gardenmanagmentapp.model.Picture;
 import com.google.android.material.navigation.NavigationView;
-import com.google.android.material.snackbar.BaseTransientBottomBar;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 import org.jetbrains.annotations.NotNull;
-
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements PictureSelectionFragment.PictureUploadListener, HomeFragment.HomeFragmentListener {
 

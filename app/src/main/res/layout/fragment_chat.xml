@@ -12,7 +12,6 @@
         android:orientation="horizontal">
 
         <ImageView
-            android:id="@+id/chat_image_view"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_margin="8dp"
@@ -21,11 +20,11 @@
             android:src="@mipmap/ic_launcher_round" />
 
         <TextView
-            android:id="@+id/chat_title_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginHorizontal="20dp"
+            android:text="@string/chat_title"
             android:textSize="18sp" />
 
     </LinearLayout>
@@ -38,7 +37,7 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/chat_recycler_view"
             android:layout_width="match_parent"
-            android:layout_height="0dp" />
+            android:layout_height="wrap_content" />
 
     </androidx.core.widget.NestedScrollView>
 

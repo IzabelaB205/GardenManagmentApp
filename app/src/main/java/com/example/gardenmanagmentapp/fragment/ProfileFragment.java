@@ -1,4 +1,4 @@
-package com.example.gardenmanagmentapp.fragments;
+package com.example.gardenmanagmentapp.fragment;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -34,7 +34,6 @@ import com.google.android.material.textfield.TextInputEditText;
 import org.jetbrains.annotations.NotNull;
 import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -83,6 +82,7 @@ public class ProfileFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         initViews(view);
+        initLaunchers();
         setListeners(view);
         populateView();
     }

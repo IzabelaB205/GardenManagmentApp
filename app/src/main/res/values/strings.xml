@@ -33,4 +33,5 @@
     <string name="title_label">Title</string>
     <string name="new_notification_message_hint">Compose message</string>
     <string name="welcome_label">Welcome To MyGan</string>
+    <string name="chat_title">My Gan Chat Group</string>
 </resources>

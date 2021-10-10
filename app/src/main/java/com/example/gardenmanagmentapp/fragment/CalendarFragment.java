@@ -1,4 +1,4 @@
-package com.example.gardenmanagmentapp.fragments;
+package com.example.gardenmanagmentapp.fragment;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;

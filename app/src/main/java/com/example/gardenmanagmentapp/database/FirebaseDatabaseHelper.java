@@ -7,6 +7,7 @@ import android.webkit.MimeTypeMap;
 
 import androidx.annotation.NonNull;
 
+import com.example.gardenmanagmentapp.model.ChatMessage;
 import com.example.gardenmanagmentapp.model.Notification;
 import com.example.gardenmanagmentapp.model.Picture;
 import com.example.gardenmanagmentapp.model.User;
@@ -31,7 +32,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FirebaseDatabaseHelper {
-    
+
     private FirebaseAuth auth;
     private FirebaseUser user;
     private FirebaseDatabase database;
@@ -88,22 +89,12 @@ public class FirebaseDatabaseHelper {
     }
 
     public void UploadNotificationToFirebase(Notification notification) {
-        if (auth.getCurrentUser() != null) {
-            DatabaseReference reference =
-                    databaseReference
-                            .child("notifications")
-                            .child(String.valueOf(System.currentTimeMillis()));
-
-            //TODO: push notification to firebase database
-        }
+        String uniqueId = databaseReference.child("notifications").push().getKey();
+        databaseReference.child("notifications").child(uniqueId).setValue(notification);
     }
 
     public void UpdateUsersDatabase(User user) {
         databaseReference.child("users").child(this.user.getUid()).setValue(user);
-    }
-
-    public void UpdateNotificationsDatabase(Notification notification) {
-        databaseReference.child("notifications").child(user.getUid()).setValue(notification);
     }
 
     public void UploadPictureToFirebase(Picture picture, String fileExtension) {
@@ -117,28 +108,49 @@ public class FirebaseDatabaseHelper {
         });
     }
 
-    public List<Notification> LoadNotificationsData() {
+    public void UploadChatMessageToFirebase(ChatMessage message) {
+        String uniqueId = databaseReference.child("chat").push().getKey();
+        databaseReference.child("chat").child(uniqueId).setValue(message);
+    }
 
-        List<Notification> notifications = new ArrayList<>();
+    public List<ChatMessage> LoadChatMessagesFromFirebase() {
+        List<ChatMessage> messages = new ArrayList<>();
 
-        databaseReference.child("notifications").child(user.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+        databaseReference.child("notifications").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
 
-                Handler handler = new Handler();
-                handler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        notifications.clear();
-
-                        if(snapshot.exists()) {
-                            for(DataSnapshot child : snapshot.getChildren()) {
-                                Notification notification = child.getValue(Notification.class);
-                                notifications.add(notification);
-                            }
-                        }
+                if (snapshot.exists()) {
+                    for (DataSnapshot child : snapshot.getChildren()) {
+                        ChatMessage message = child.getValue(ChatMessage.class);
+                        messages.add(message);
                     }
-                });
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull @NotNull DatabaseError error) {
+
+            }
+        });
+
+        return messages;
+    }
+
+    public List<Notification> LoadNotificationsFromFirebase() {
+
+        List<Notification> notifications = new ArrayList<>();
+
+        databaseReference.child("notifications").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+
+                if (snapshot.exists()) {
+                    for (DataSnapshot child : snapshot.getChildren()) {
+                        Notification notification = child.getValue(Notification.class);
+                        notifications.add(notification);
+                    }
+                }
             }
 
             @Override
@@ -150,7 +162,7 @@ public class FirebaseDatabaseHelper {
         return notifications;
     }
 
-    public List<Picture> LoadPicturesData() {
+    public List<Picture> LoadPicturesFromFirebase() {
 
         List<Picture> pictures = new ArrayList<>();
 
@@ -159,7 +171,7 @@ public class FirebaseDatabaseHelper {
             public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
                 pictures.clear();
 
-                for(DataSnapshot child : snapshot.getChildren()) {
+                for (DataSnapshot child : snapshot.getChildren()) {
                     Picture picture = child.getValue(Picture.class);
                     picture.setKey(snapshot.getKey());
                     pictures.add(picture);

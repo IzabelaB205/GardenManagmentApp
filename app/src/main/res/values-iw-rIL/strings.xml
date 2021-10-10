@@ -34,4 +34,5 @@
     <string name="title_label">כותרת</string>
     <string name="new_notification_message_hint">לחבר הודעה</string>
     <string name="welcome_label">ברוכים הבאים ל MyGan</string>
+    <string name="chat_title">קבוצת MyGan</string>
 </resources>

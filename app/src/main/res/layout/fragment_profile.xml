@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".fragments.ProfileFragment">
+    tools:context=".fragment.ProfileFragment">
 
     <ImageButton
         android:id="@+id/profile_edit_image_view"

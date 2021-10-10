@@ -1,4 +1,4 @@
-package com.example.gardenmanagmentapp.fragments;
+package com.example.gardenmanagmentapp.fragment;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;

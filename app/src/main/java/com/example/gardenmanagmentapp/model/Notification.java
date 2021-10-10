@@ -1,8 +1,6 @@
 package com.example.gardenmanagmentapp.model;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 
 public class Notification implements Serializable {
 
@@ -13,9 +11,9 @@ public class Notification implements Serializable {
 
     public Notification() {}
 
-    public Notification(String content, String sender, String title) {
+    public Notification(String content, String date, String sender, String title) {
         this.content = content;
-        this.date = createNotificationDate();
+        this.date = date;
         this.sender = sender;
         this.title = title;
     }
@@ -50,11 +48,5 @@ public class Notification implements Serializable {
 
     public void setTitle(String title) {
         this.title = title;
-    }
-
-    private String createNotificationDate() {
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
-        LocalDateTime now = LocalDateTime.now();
-        return dtf.format(now);
     }
 }

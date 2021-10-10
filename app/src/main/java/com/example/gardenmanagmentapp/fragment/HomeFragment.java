@@ -1,4 +1,4 @@
-package com.example.gardenmanagmentapp.fragments;
+package com.example.gardenmanagmentapp.fragment;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -13,7 +13,6 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.gardenmanagmentapp.R;
-import com.example.gardenmanagmentapp.model.Picture;
 
 import org.jetbrains.annotations.NotNull;
 
