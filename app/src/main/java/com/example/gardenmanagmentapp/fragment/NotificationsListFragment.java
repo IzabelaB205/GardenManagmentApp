@@ -13,6 +13,8 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -22,7 +24,14 @@ import com.example.gardenmanagmentapp.R;
 import com.example.gardenmanagmentapp.database.FirebaseDatabaseHelper;
 import com.example.gardenmanagmentapp.model.ChatMessage;
 import com.example.gardenmanagmentapp.model.Notification;
+import com.example.gardenmanagmentapp.viewmodel.NotificationsViewModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.messaging.FirebaseMessaging;
 
 import org.jetbrains.annotations.NotNull;
@@ -34,10 +43,11 @@ import java.util.List;
 
 public class NotificationsListFragment extends Fragment {
 
-    private List<Notification> notifications = new ArrayList<>();
+    private List<Notification> notifications;
     private FloatingActionButton floatingActionButton;
     private RecyclerView recyclerView;
     private NotificationsListAdapter notificationsAdapter;
+    private NotificationsViewModel viewModel;
 
     private BroadcastReceiver receiver;
 
@@ -60,13 +70,23 @@ public class NotificationsListFragment extends Fragment {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        notifications = firebaseHelper.LoadNotificationsFromFirebase();
+        notifications = new ArrayList<>();
+
+        viewModel = new ViewModelProvider(requireActivity()).get(NotificationsViewModel.class);
+        viewModel.getNotification().observe(getViewLifecycleOwner(), new Observer<Notification>() {
+            @Override
+            public void onChanged(Notification notification) {
+                notifications.add(notification);
+                notificationsAdapter.notifyItemInserted(notifications.size() - 1);
+            }
+        });
 
         notificationsAdapter = new NotificationsListAdapter(notifications);
         recyclerView.setAdapter(notificationsAdapter);
 
         initViews(view);
         setListeners(view);
+        loadNotificationsFromFirebase();
 
         receiver = new BroadcastReceiver() {
             @Override
@@ -110,6 +130,27 @@ public class NotificationsListFragment extends Fragment {
                         .commit();
 
                 //TODO: open notification fragment - maybe gives adapter for notify on notification addition
+
+            }
+        });
+    }
+
+    private void loadNotificationsFromFirebase() {
+        DatabaseReference mRootRef = FirebaseDatabase.getInstance().getReference();
+        mRootRef.child("notifications").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    for (DataSnapshot child : snapshot.getChildren()) {
+                        Notification notification = child.getValue(Notification.class);
+                        notifications.add(notification);
+                    }
+                }
+                notificationsAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull @NotNull DatabaseError error) {
 
             }
         });

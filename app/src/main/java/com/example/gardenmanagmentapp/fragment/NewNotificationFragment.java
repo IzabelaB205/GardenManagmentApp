@@ -9,6 +9,7 @@ import android.widget.Button;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -21,6 +22,7 @@ import com.example.gardenmanagmentapp.R;
 import com.example.gardenmanagmentapp.adapters.NotificationsListAdapter;
 import com.example.gardenmanagmentapp.database.FirebaseDatabaseHelper;
 import com.example.gardenmanagmentapp.model.Notification;
+import com.example.gardenmanagmentapp.viewmodel.NotificationsViewModel;
 import com.google.android.material.textfield.TextInputEditText;
 
 import org.jetbrains.annotations.NotNull;
@@ -40,6 +42,7 @@ public class NewNotificationFragment extends Fragment {
     private Button buttonSend;
     private Button buttonCancel;
 
+    private NotificationsViewModel viewModel;
     private NotificationsListAdapter adapter;
     private List<Notification> notifications;
 
@@ -88,8 +91,11 @@ public class NewNotificationFragment extends Fragment {
 
                 // Create new notification object
                 Notification notification = new Notification(title, date, "Ganenet", content);
-                notifications.add(notification);
-                adapter.notifyItemInserted(notifications.size() - 1);
+//                notifications.add(notification);
+//                adapter.notifyItemInserted(notifications.size() - 1);
+
+                viewModel = new ViewModelProvider(requireActivity()).get(NotificationsViewModel.class);
+                viewModel.setNotification(notification);
 
                 // Clear all notification's fragment EditTexts
                 editTextTitle.setText("");

@@ -141,7 +141,7 @@ public class FirebaseDatabaseHelper {
 
         List<Notification> notifications = new ArrayList<>();
 
-        databaseReference.child("notifications").addListenerForSingleValueEvent(new ValueEventListener() {
+        databaseReference.child("notifications").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
 
