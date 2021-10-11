@@ -1,22 +1,19 @@
 package com.example.gardenmanagmentapp.adapters;
 
 import android.content.Context;
-import android.view.ContextMenu;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
 import com.example.gardenmanagmentapp.R;
+import com.example.gardenmanagmentapp.model.GlideApp;
 import com.example.gardenmanagmentapp.model.Picture;
-import com.squareup.picasso.Picasso;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -26,6 +23,7 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.GalleryV
 
     private Context context;
     private List<Picture> pictures;
+    FirebaseStorage storage = FirebaseStorage.getInstance();
 
     public GalleryAdapter(Context context, List<Picture> pictures) {
         this.context = context;
@@ -55,19 +53,10 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.GalleryV
     @Override
     public void onBindViewHolder(@NonNull @NotNull GalleryAdapter.GalleryViewHolder holder, int position) {
 
-            Picture picture = pictures.get(position);
-
-            Picasso.get()
-                    .load(picture.getPictureUrl())
-                    .placeholder(R.drawable.ic_person)
-                    .into(holder.galleryImageView);
-
-
-//            Glide.with(context)
-//                    .load(picture.getKey())
-//                    .placeholder(R.drawable.ic_person)
-//                    .circleCrop()
-//                    .into(holder.galleryImageView);
+        Picture picture = pictures.get(position);
+        StorageReference picRef = storage.getReference().child(picture.getPictureUrl());
+        //Log.d("Uploaded image: ","image number "+position);
+        GlideApp.with(context).load(picRef).into(holder.galleryImageView);
     }
 
     @Override

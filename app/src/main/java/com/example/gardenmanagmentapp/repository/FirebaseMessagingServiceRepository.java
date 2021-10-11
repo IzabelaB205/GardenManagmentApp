@@ -21,8 +21,6 @@ public class FirebaseMessagingServiceRepository extends com.google.firebase.mess
 
         // Check if message contains a data payload
         if (remoteMessage.getData().size() > 0) {
-            //String messageTitle = remoteMessage.getNotification().getTitle();
-
 
             Intent intent = new Intent("message_received");
             intent.putExtra("message", remoteMessage.getData().get("message"));
@@ -45,7 +43,8 @@ public class FirebaseMessagingServiceRepository extends com.google.firebase.mess
             NotificationCompat.Builder builder = new NotificationCompat.Builder(this, channelID);
             builder.setContentTitle("messageTitle")
                     .setContentText(remoteMessage.getData().get("message"))
-                    .setSmallIcon(android.R.drawable.star_on);
+                    .setSmallIcon(android.R.drawable.star_on)
+                    .setChannelId("1");
             manager.notify(NOTIFICATION_ID, builder.build());
         }
 

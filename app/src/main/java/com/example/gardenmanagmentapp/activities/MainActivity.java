@@ -99,16 +99,11 @@ public class MainActivity extends AppCompatActivity implements PictureSelectionF
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull @NotNull MenuItem item) {
-                String title = "";
-                String context = "";
-
                 item.setChecked(true);
 
                 switch(item.getItemId())
                 {
                     case R.id.item_home:
-                        //openDefaultFragment(R.id.item_calendar, title, context);
-
                         fragmentManager.beginTransaction()
                                 .replace(R.id.id_to_fill, new HomeFragment(), HOME_FRAGMENT_TAG)
                                 .addToBackStack(null)
@@ -116,28 +111,12 @@ public class MainActivity extends AppCompatActivity implements PictureSelectionF
 
                         break;
                     case R.id.item_notifications:
-                        title = "Notification Fragment";
-                        context = "this is a default notification fragment";
-                        //openDefaultFragment(R.id.item_notifications, title, context);
-
-                        fragmentManager.beginTransaction()
+                            fragmentManager.beginTransaction()
                                 .replace(R.id.id_to_fill, new NotificationsListFragment(), NOTIFICATIONS_FRAGMENT_TAG)
                                 .addToBackStack(null)
                                 .commit();
-
-                    /*    if(!textViewUsername.equals("Visitor")) {
-                            fragmentManager.beginTransaction()
-                                    .replace(R.id.drawer_layout, new NotificationsListFragment(), NOTIFICATIONS_FRAGMENT_TAG)
-                                    .addToBackStack(null)
-                                    .commit();
-                        }*/
-
                         break;
                     case R.id.item_chat:
-                        title = "Chat Fragment";
-                        context = "this is a default chat fragment";
-                        //openDefaultFragment(R.id.item_chat, title, context);
-
                         fragmentManager.beginTransaction()
                                 .replace(R.id.id_to_fill,  new ChatFragment(), CHAT_FRAGMENT_TAG)
                                 .addToBackStack(null)
@@ -145,24 +124,12 @@ public class MainActivity extends AppCompatActivity implements PictureSelectionF
 
                         break;
                     case R.id.item_pictures:
-                        title = "Pictures Fragment";
-                        context = "this is a default pictures fragment";
-/*
-                        openDefaultFragment(R.id.item_pictures, title, context);
-*/
-
                         fragmentManager.beginTransaction()
                                 .replace(R.id.id_to_fill, new GalleryFragment(), PICTURES_FRAGMENT_TAG)
                                 .addToBackStack(null)
                                 .commit();
                         break;
                     case R.id.item_profile:
-                        title = "Profile Fragment";
-                        context = "this is a default profile fragment";
-/*
-                        openDefaultFragment(R.id.item_profile, title, context);
-*/
-
                         fragmentManager.beginTransaction()
                                 .replace(R.id.id_to_fill, new ProfileFragment(), PROFILE_FRAGMENT_TAG)
                                 .commit();

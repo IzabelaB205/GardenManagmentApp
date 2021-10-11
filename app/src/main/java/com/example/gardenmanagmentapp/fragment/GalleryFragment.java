@@ -8,19 +8,19 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.gardenmanagmentapp.R;
 import com.example.gardenmanagmentapp.adapters.GalleryAdapter;
 import com.example.gardenmanagmentapp.repository.FirebaseDatabaseHelper;
 import com.example.gardenmanagmentapp.model.Picture;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.ListResult;
+import com.google.firebase.storage.StorageReference;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -32,10 +32,17 @@ public class GalleryFragment extends Fragment {
     private List<Picture> pictures;
     private FloatingActionButton picturesFloatingButton;
     private GalleryAdapter pictureStorageAdapter;
+    GridLayoutManager gridLayoutManager;
 
     private FirebaseDatabaseHelper firebaseHelper = new FirebaseDatabaseHelper();
 
     public GalleryFragment() {};
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        gridLayoutManager = new GridLayoutManager(getContext(), 2);
+    }
 
     @Nullable
     @org.jetbrains.annotations.Nullable
@@ -55,9 +62,8 @@ public class GalleryFragment extends Fragment {
 
         RecyclerView recyclerView = view.findViewById(R.id.gallery_recycler_view);
         recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerView.setLayoutManager(gridLayoutManager);
 
-        //TODO : load pictures from firebase storage
         pictures = new ArrayList<>();
 
         pictureStorageAdapter = new GalleryAdapter(getContext(), pictures);
@@ -67,8 +73,6 @@ public class GalleryFragment extends Fragment {
         setListeners(view);
         loadPicturesFromFirebase();
 
-        //TODO: check if garden manager - true - make floating button visible.
-        //otherwise, do nothing.
         picturesFloatingButton.setVisibility(View.VISIBLE);
     }
 
@@ -76,9 +80,10 @@ public class GalleryFragment extends Fragment {
         picturesFloatingButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                PictureSelectionFragment pictureSelectionFragment = new PictureSelectionFragment();
-                getActivity().getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.drawer_layout, pictureSelectionFragment, PictureSelectionFragment.PICTURE_SELECTION_FRAGMENT)
+
+                getActivity().getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.id_to_fill, new PictureSelectionFragment(), PictureSelectionFragment.PICTURE_SELECTION_FRAGMENT)
                         .addToBackStack(null)
                         .commit();
             }
@@ -86,22 +91,31 @@ public class GalleryFragment extends Fragment {
     }
 
     private void loadPicturesFromFirebase() {
-        DatabaseReference mRootRef = FirebaseDatabase.getInstance().getReference();
-        mRootRef.child("uploads").addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
-                if (snapshot.exists()) {
-                    for (DataSnapshot child : snapshot.getChildren()) {
-                        Picture picture = child.getValue(Picture.class);
-                        pictures.add(picture);
-                    }
-                }
-                pictureStorageAdapter.notifyDataSetChanged();
-            }
+        FirebaseStorage storage = FirebaseStorage.getInstance();
+        StorageReference listRef = storage.getReference().child("uploads");
 
-            @Override
-            public void onCancelled(@NonNull @NotNull DatabaseError error) {
-            }
-        });
+
+        listRef.listAll()
+                .addOnSuccessListener(new OnSuccessListener<ListResult>() {
+                    @Override
+                    public void onSuccess(ListResult listResult) {
+
+                        for (StorageReference item : listResult.getItems()) {
+
+                            Picture picture = new Picture();
+                            picture.setPictureUrl(item.getPath().toString());
+                            pictures.add(picture);;
+                        }
+                        pictureStorageAdapter.notifyDataSetChanged();
+                    }
+
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        // Uh-oh, an error occurred!
+                    }
+                });
+
     }
 }

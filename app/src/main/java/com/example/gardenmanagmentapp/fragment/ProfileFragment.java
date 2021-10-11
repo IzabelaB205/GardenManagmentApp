@@ -223,7 +223,6 @@ public class ProfileFragment extends Fragment {
 
         viewModel.SaveUser(profileUser);
 
-        // TODO: change password in Authentication table of firebase
     }
 
     private void uploadImageToFirebase(Uri uri) {
@@ -262,7 +261,6 @@ public class ProfileFragment extends Fragment {
             }
         });
     }
-
 
     private Uri getImageUri(Context inContext, Bitmap inImage) {
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
