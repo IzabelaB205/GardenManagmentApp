@@ -48,6 +48,7 @@ public class SignInFragment extends Fragment {
             public void onChanged(FirebaseUser firebaseUser) {
                 if(firebaseUser != null) {
                     Snackbar.make(view, getString(R.string.sign_in_successfully), Snackbar.LENGTH_SHORT).show();
+                    viewModel.GetProfileUserFromFirebase();
                     getActivity().getSupportFragmentManager().popBackStack();
                 }
             }

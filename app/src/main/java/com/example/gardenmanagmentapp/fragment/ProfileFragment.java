@@ -19,19 +19,22 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.gardenmanagmentapp.R;
-import com.example.gardenmanagmentapp.repository.FirebaseDatabaseHelper;
 import com.example.gardenmanagmentapp.model.User;
+import com.example.gardenmanagmentapp.viewmodel.AuthenticationViewModel;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
 
 import org.jetbrains.annotations.NotNull;
+
 import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -60,16 +63,12 @@ public class ProfileFragment extends Fragment {
 
     private FirebaseStorage firebaseStorage;
     private StorageReference storageReference;
-    private DatabaseReference databaseReference;
-    private FirebaseDatabaseHelper helper = new FirebaseDatabaseHelper();
 
     private User profileUser;
+    private AuthenticationViewModel viewModel;
     private final static String PROFILE_IMAGE_STORAGE_PATH = "profile_image";
 
     public ProfileFragment() {
-        profileUser = new User("Izabela", "123456", "0544387662", "izabela@gmail.com", "12345678", "");
-
-        helper.UpdateUsersDatabase(profileUser);
     }
 
     @Override
@@ -81,9 +80,25 @@ public class ProfileFragment extends Fragment {
     public void onViewCreated(@NonNull @NotNull View view, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        firebaseStorage = FirebaseStorage.getInstance();
+        storageReference = firebaseStorage.getReference();
+
         initViews(view);
         initLaunchers();
-        setListeners(view);
+        setListeners();
+
+        changeEditState(false);
+        setButtonState(view.INVISIBLE);
+
+        viewModel = new ViewModelProvider(requireActivity()).get(AuthenticationViewModel.class);
+        viewModel.getUser().observe(getViewLifecycleOwner(), new Observer<User>() {
+            @Override
+            public void onChanged(User user) {
+                profileUser = user;
+            }
+        });
+
+        profileUser = viewModel.getUser().getValue();
         populateView();
     }
 
@@ -100,11 +115,11 @@ public class ProfileFragment extends Fragment {
         buttonCancelProfile = view.findViewById(R.id.profile_cancel_button);
     }
 
-    private void setListeners(View view) {
+    private void setListeners() {
         profileImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                // TODO: add alarm manager for pop-up pic an image
             }
         });
 
@@ -112,7 +127,7 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 setButtonState(View.VISIBLE);
-                setArgumentsState(true);
+                changeEditState(true);
             }
         });
 
@@ -120,11 +135,9 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 setButtonState(View.INVISIBLE);
-                setArgumentsState(false);
+                changeEditState(false);
 
                 readProfileChanges();
-                helper = new FirebaseDatabaseHelper();
-                helper.SaveUser(profileUser);
             }
         });
 
@@ -132,7 +145,7 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 setButtonState(View.INVISIBLE);
-                setArgumentsState(false);
+                changeEditState(false);
             }
         });
     }
@@ -163,28 +176,32 @@ public class ProfileFragment extends Fragment {
 
     private void populateView() {
 
-        //TODO: load user from firebase
-
-        //DatabaseReference db = databaseReference.child("users").child(FirebaseAuth.getInstance().getUid());
-
+        // TODO: should be if(profileUser!=null) or all edittext set to zero
         textViewUsername.setText(profileUser.getFullName());
         editTextId.setText(profileUser.getId());
         editTextEmail.setText(profileUser.getEmail());
         editTextPhone.setText(profileUser.getPhone());
         editTextPassword.setText(profileUser.getPassword());
 
-        if (profileUser.getPictureLink() != null) {
-            Glide.with(this)
-                    .load(profileUser.getPictureLink())
-                    .apply(new RequestOptions().transform(new CenterCrop(), new RoundedCorners(50)))
-                    .into(profileImageView);
-        }
+        Glide.with(this)
+                .load(profileUser.getPictureLink())
+                .placeholder(R.drawable.profile)
+                .apply(new RequestOptions().transform(new CenterCrop(), new RoundedCorners(50)))
+                .into(profileImageView);
     }
 
     private void readProfileChanges() {
-        profileUser.setEmail(editTextEmail.getText().toString());
-        profileUser.setPhone(editTextPhone.getText().toString());
-        profileUser.setPassword(editTextPassword.getText().toString());
+        String email = editTextEmail.getText().toString();
+        String phone = editTextPhone.getText().toString();
+        String password = editTextPassword.getText().toString();
+
+        profileUser.setEmail(email);
+        profileUser.setPhone(phone);
+        profileUser.setPassword(password);
+
+        viewModel.SaveUser(profileUser);
+
+        // TODO: change password in Authentication table of firebase
     }
 
     private void uploadImageToFirebase(Uri uri) {
@@ -224,6 +241,7 @@ public class ProfileFragment extends Fragment {
         });
     }
 
+
     private Uri getImageUri(Context inContext, Bitmap inImage) {
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
         inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
@@ -231,15 +249,13 @@ public class ProfileFragment extends Fragment {
         return Uri.parse(path);
     }
 
-    private void setButtonState(int state)
-    {
+    private void setButtonState(int state) {
         buttonSaveProfile.setVisibility(state);
         buttonCancelProfile.setVisibility(state);
     }
 
-    private void setArgumentsState(boolean state) {
+    private void changeEditState(boolean state) {
         profileImageView.setClickable(state);
-        editTextId.setEnabled(state);
         editTextEmail.setEnabled(state);
         editTextPhone.setEnabled(state);
         editTextPassword.setEnabled(state);

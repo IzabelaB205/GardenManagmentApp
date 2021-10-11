@@ -10,15 +10,16 @@
         android:id="@+id/profile_edit_image_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_settings"
-        android:layout_gravity="end"/>
+        android:layout_gravity="end"
+        android:backgroundTint="@color/white"
+        android:src="@drawable/ic_settings" />
 
     <ImageView
         android:id="@+id/profile_image_view"
         android:layout_width="150dp"
         android:layout_height="150dp"
         android:layout_gravity="center|top"
-        android:layout_marginTop="80dp"
+        android:layout_marginTop="50dp"
         android:layout_marginBottom="16dp"
         android:clickable="false"
         android:scaleType="fitXY"
@@ -42,6 +43,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_margin="8dp"
+            android:enabled="false"
             android:hint="@string/id_label"
             android:inputType="number" />
     </com.google.android.material.textfield.TextInputLayout>
@@ -83,18 +85,27 @@
             android:hint="@string/password_label" />
     </com.google.android.material.textfield.TextInputLayout>
 
-    <Button
-        android:id="@+id/profile_save_button"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/save_button"
-        android:visibility="gone"/>
+        android:layout_gravity="center"
+        android:layout_marginTop="16dp"
+        android:orientation="horizontal">
 
-    <Button
-        android:id="@+id/profile_cancel_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/cancel_label"
-        android:visibility="gone"/>
+        <Button
+            android:id="@+id/profile_save_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:text="@string/save_button" />
+
+        <Button
+            android:id="@+id/profile_cancel_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:text="@string/cancel_label" />
+
+    </LinearLayout>
 
 </LinearLayout>

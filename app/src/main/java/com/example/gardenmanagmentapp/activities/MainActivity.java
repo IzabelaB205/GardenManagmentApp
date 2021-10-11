@@ -34,7 +34,7 @@ import com.google.firebase.auth.FirebaseUser;
 
 import org.jetbrains.annotations.NotNull;
 
-public class MainActivity extends AppCompatActivity implements PictureSelectionFragment.PictureUploadListener/*, HomeFragment.HomeFragmentListener */{
+public class MainActivity extends AppCompatActivity implements PictureSelectionFragment.PictureUploadListener {
 
     private FirebaseDatabaseHelper firebaseManager;
     private FragmentManager fragmentManager;
@@ -44,7 +44,6 @@ public class MainActivity extends AppCompatActivity implements PictureSelectionF
 
     private final String NOTIFICATIONS_FRAGMENT_TAG = "notifications_fragment";
     private final String CHAT_FRAGMENT_TAG = "chat_fragment";
-    private final String CALENDAR_FRAGMENT_TAG = "calendar_fragment";
     private final String PROFILE_FRAGMENT_TAG = "profile_fragment";
     private final String PICTURES_FRAGMENT_TAG = "pictures_fragment";
     private final String DEFAULT_FRAGMENT_TAG = "default_fragment";
@@ -222,11 +221,4 @@ public class MainActivity extends AppCompatActivity implements PictureSelectionF
 //                .addToBackStack(null)
                 .commit();*/
     }
-
-//    @Override
-//    public void displaySignInDialog() {
-//        fragmentManager.beginTransaction()
-//                .replace(R.id.id_to_fill, new SignInFragment(), SIGN_IN_FRAGMENT_TAG)
-//                .commit();
-//    }
 }

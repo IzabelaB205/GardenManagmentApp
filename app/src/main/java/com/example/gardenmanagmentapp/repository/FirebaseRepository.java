@@ -2,13 +2,17 @@ package com.example.gardenmanagmentapp.repository;
 
 import androidx.annotation.NonNull;
 
+import com.example.gardenmanagmentapp.model.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class FirebaseRepository {
 
@@ -33,6 +37,10 @@ public class FirebaseRepository {
     public interface FirebaseRepositoryListener {
 
         void OnSignInSuccessful();
+
+        void OnProfileUserSaved(User user);
+
+        void OnProfileUserReceived(User user);
     }
 
     public void setListener(FirebaseRepositoryListener listener) {
@@ -54,6 +62,52 @@ public class FirebaseRepository {
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
+
+            }
+        });
+    }
+
+    public void SignOut() {
+        firebaseAuth.signOut();
+    }
+
+    public void SaveUser(User user) {
+        if (firebaseAuth.getCurrentUser() != null) {
+            DatabaseReference userReference = databaseReference.child("users")
+                    .child(firebaseAuth.getCurrentUser().getUid());
+
+            userReference.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<DataSnapshot> task) {
+                    if (task.isSuccessful()) {
+                        User updatedUser = task.getResult().getValue(User.class);
+                        updatedUser.setEmail(user.getEmail());
+                        updatedUser.setPhone(user.getPhone());
+                        updatedUser.setPassword(user.getPassword());
+                        userReference.setValue(updatedUser);
+
+                        if (listener != null) {
+                            listener.OnProfileUserSaved(updatedUser);
+                        }
+                    }
+                }
+            });
+        }
+    }
+
+    public void GetProfileUserFromFirebase() {
+        databaseReference.child("users").child(firebaseAuth.getCurrentUser().getUid()).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                User user = snapshot.getValue(User.class);
+
+                if (listener != null) {
+                    listener.OnProfileUserReceived(user);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
 
             }
         });

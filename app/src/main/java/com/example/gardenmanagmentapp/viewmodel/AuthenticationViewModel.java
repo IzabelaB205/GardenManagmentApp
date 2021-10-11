@@ -28,6 +28,16 @@ public class AuthenticationViewModel extends ViewModel implements FirebaseReposi
         mFirebaseUser.setValue(FirebaseAuth.getInstance().getCurrentUser());
     }
 
+    @Override
+    public void OnProfileUserSaved(User user) {
+        mUser.setValue(user);
+    }
+
+    @Override
+    public void OnProfileUserReceived(User user) {
+        mUser.setValue(user);
+    }
+
     public LiveData<User> getUser() { return mUser; }
 
     public LiveData<FirebaseUser> getFirebaseUser() { return mFirebaseUser; }
@@ -38,5 +48,14 @@ public class AuthenticationViewModel extends ViewModel implements FirebaseReposi
 
     public void SignOut() {
         mFirebaseUser.setValue(null);
+        mFirebaseRepository.SignOut();
+    }
+
+    public void SaveUser(User user) {
+        mFirebaseRepository.SaveUser(user);
+    }
+
+    public void GetProfileUserFromFirebase() {
+        mFirebaseRepository.GetProfileUserFromFirebase();
     }
 }
