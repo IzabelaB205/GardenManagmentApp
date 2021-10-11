@@ -87,11 +87,11 @@ public class MainActivity extends AppCompatActivity implements PictureSelectionF
             public void onAuthStateChanged(@NonNull @NotNull FirebaseAuth firebaseAuth) {
                 final FirebaseUser user = firebaseAuth.getCurrentUser();
 
-                if(user != null) {
-
-                }
-               else {
-                   viewModel.SignOut();
+                if (user != null) {
+                    textViewUsername.setText("");
+                } else {
+                    textViewUsername.setText("Visitor");
+                    viewModel.SignOut();
                 }
             }
         };
@@ -101,8 +101,7 @@ public class MainActivity extends AppCompatActivity implements PictureSelectionF
             public boolean onNavigationItemSelected(@NonNull @NotNull MenuItem item) {
                 item.setChecked(true);
 
-                switch(item.getItemId())
-                {
+                switch (item.getItemId()) {
                     case R.id.item_home:
                         fragmentManager.beginTransaction()
                                 .replace(R.id.id_to_fill, new HomeFragment(), HOME_FRAGMENT_TAG)
@@ -110,14 +109,14 @@ public class MainActivity extends AppCompatActivity implements PictureSelectionF
                                 .commit();
                         break;
                     case R.id.item_notifications:
-                            fragmentManager.beginTransaction()
+                        fragmentManager.beginTransaction()
                                 .replace(R.id.id_to_fill, new NotificationsListFragment(), NOTIFICATIONS_FRAGMENT_TAG)
                                 .addToBackStack(null)
                                 .commit();
                         break;
                     case R.id.item_chat:
                         fragmentManager.beginTransaction()
-                                .replace(R.id.id_to_fill,  new ChatFragment(), CHAT_FRAGMENT_TAG)
+                                .replace(R.id.id_to_fill, new ChatFragment(), CHAT_FRAGMENT_TAG)
                                 .addToBackStack(null)
                                 .commit();
 
