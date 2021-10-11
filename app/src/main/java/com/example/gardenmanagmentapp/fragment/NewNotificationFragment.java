@@ -20,8 +20,10 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.gardenmanagmentapp.R;
 import com.example.gardenmanagmentapp.adapters.NotificationsListAdapter;
+import com.example.gardenmanagmentapp.model.User;
 import com.example.gardenmanagmentapp.repository.FirebaseDatabaseHelper;
 import com.example.gardenmanagmentapp.model.Notification;
+import com.example.gardenmanagmentapp.viewmodel.AuthenticationViewModel;
 import com.example.gardenmanagmentapp.viewmodel.NotificationsViewModel;
 import com.google.android.material.textfield.TextInputEditText;
 
@@ -42,20 +44,15 @@ public class NewNotificationFragment extends Fragment {
     private Button buttonSend;
     private Button buttonCancel;
 
-    private NotificationsViewModel viewModel;
-    private NotificationsListAdapter adapter;
-    private List<Notification> notifications;
+    private User profileUser;
 
-    private FirebaseDatabaseHelper firebaseHelper = new FirebaseDatabaseHelper();
+    private AuthenticationViewModel authenticationViewModel;
+    private NotificationsViewModel notificationsViewModel;
+
+    private FirebaseDatabaseHelper firebaseHelper;
 
     private final String API_TOKEN_KEY = "AAAA8YUodb0:APA91bGxuNltYGPCRyAIQnk1nMMEREGs3UNJVKOviuhuQzg0sKAEZ72_WzdrXmiTRn06NJZfiB-4R8FtELucE2AGZPUerqkPmX0LWk3lONGie79Tt1Rqlke6KT-Fm7P7vfgbCtlyE-z1";
     //private final static String NOTIFICATION_PATH = "notifications";
-
-
-    public NewNotificationFragment(NotificationsListAdapter adapter, List<Notification> notifications) {
-        this.adapter = adapter;
-        this.notifications = notifications;
-    }
 
     @Nullable
     @org.jetbrains.annotations.Nullable
@@ -70,6 +67,9 @@ public class NewNotificationFragment extends Fragment {
 
         initViews(view);
         setListeners(view);
+
+        authenticationViewModel = new ViewModelProvider(requireActivity()).get(AuthenticationViewModel.class);
+        profileUser = authenticationViewModel.getUser().getValue();
     }
 
     private void initViews(View view) {
@@ -90,23 +90,17 @@ public class NewNotificationFragment extends Fragment {
                 String date = createNotificationDate();
 
                 // Create new notification object
-                Notification notification = new Notification(title, date, "Ganenet", content);
-//                notifications.add(notification);
-//                adapter.notifyItemInserted(notifications.size() - 1);
+                Notification notification = new Notification(title, date, profileUser.getFullName(), content);
 
-                viewModel = new ViewModelProvider(requireActivity()).get(NotificationsViewModel.class);
-                viewModel.setNotification(notification);
+                // Notify Notification fragment that new notification was created
+                notificationsViewModel = new ViewModelProvider(requireActivity()).get(NotificationsViewModel.class);
+                notificationsViewModel.setNotification(notification);
 
                 // Clear all notification's fragment EditTexts
                 editTextTitle.setText("");
                 editTextContent.setText("");
 
                 //TODO: 1. send broadcast message to all Garden's members
-                //      2. add notification to firebase database
-                //      3. add notification to notifications list using adapter
-
-                // Upload message to firebase real-time database
-                firebaseHelper.UploadNotificationToFirebase(notification);
 
                 // Create json object for sending the POST message using Volley
                 JSONObject rootObject = new JSONObject();
@@ -148,6 +142,13 @@ public class NewNotificationFragment extends Fragment {
                 } catch(JSONException ex) {
                     ex.printStackTrace();
                 }
+            }
+        });
+
+        buttonCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity().getSupportFragmentManager().popBackStack();
             }
         });
     }

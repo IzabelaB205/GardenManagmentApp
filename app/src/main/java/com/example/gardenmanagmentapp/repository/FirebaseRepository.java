@@ -2,6 +2,8 @@ package com.example.gardenmanagmentapp.repository;
 
 import androidx.annotation.NonNull;
 
+import com.example.gardenmanagmentapp.model.ChatMessage;
+import com.example.gardenmanagmentapp.model.Notification;
 import com.example.gardenmanagmentapp.model.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -23,7 +25,7 @@ public class FirebaseRepository {
     private FirebaseRepositoryListener listener;
 
     public static FirebaseRepository getInstance() {
-        if(instance == null) {
+        if (instance == null) {
             instance = new FirebaseRepository();
         }
         return instance;
@@ -111,5 +113,15 @@ public class FirebaseRepository {
 
             }
         });
+    }
+
+    public void UploadNotificationToFirebase(Notification notification) {
+        String uniqueId = databaseReference.child("notifications").push().getKey();
+        databaseReference.child("notifications").child(uniqueId).setValue(notification);
+    }
+
+    public void UploadChatMessageToFirebase(ChatMessage chatMessage) {
+        String uniqueId = databaseReference.child("chat").push().getKey();
+        databaseReference.child("chat").child(uniqueId).setValue(chatMessage);
     }
 }

@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -21,8 +20,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.gardenmanagmentapp.adapters.NotificationsListAdapter;
 import com.example.gardenmanagmentapp.R;
+import com.example.gardenmanagmentapp.model.User;
 import com.example.gardenmanagmentapp.repository.FirebaseDatabaseHelper;
 import com.example.gardenmanagmentapp.model.Notification;
+import com.example.gardenmanagmentapp.viewmodel.AuthenticationViewModel;
 import com.example.gardenmanagmentapp.viewmodel.NotificationsViewModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.database.DataSnapshot;
@@ -41,16 +42,22 @@ import java.util.List;
 
 public class NotificationsListFragment extends Fragment {
 
-    private List<Notification> notifications;
     private FloatingActionButton floatingActionButton;
+
+    private User profileUser;
+    private List<Notification> notifications;
     private RecyclerView recyclerView;
     private NotificationsListAdapter notificationsAdapter;
-    private NotificationsViewModel viewModel;
+
+    private NotificationsViewModel notificationViewModel;
+    private AuthenticationViewModel authenticationViewModel;
 
     private BroadcastReceiver receiver;
 
     private FirebaseDatabaseHelper firebaseHelper = new FirebaseDatabaseHelper();
     private FirebaseMessaging firebaseMessaging = FirebaseMessaging.getInstance();
+
+    private final String NOTIFICATION_FRAGMENT_TAG = "NOTIFICATION_FRAGMENT_TAG";
 
     @Nullable
     @org.jetbrains.annotations.Nullable
@@ -64,34 +71,44 @@ public class NotificationsListFragment extends Fragment {
     public void onViewCreated(@NonNull @NotNull View view, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        recyclerView = view.findViewById(R.id.notifications_recycler_view);
+        initViews(view);
+        setListeners(view);
+
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         notifications = new ArrayList<>();
 
-        viewModel = new ViewModelProvider(requireActivity()).get(NotificationsViewModel.class);
-        viewModel.getNotification().observe(getViewLifecycleOwner(), new Observer<Notification>() {
+        notificationsAdapter = new NotificationsListAdapter(notifications);
+        recyclerView.setAdapter(notificationsAdapter);
+
+        authenticationViewModel = new ViewModelProvider(requireActivity()).get(AuthenticationViewModel.class);
+        profileUser = authenticationViewModel.getUser().getValue();
+
+        if(profileUser != null) {
+            floatingActionButton.setVisibility(view.VISIBLE);
+            loadNotificationsFromFirebase();
+        }
+        else {
+            floatingActionButton.setVisibility(view.INVISIBLE);
+        }
+
+        notificationViewModel = new ViewModelProvider(requireActivity()).get(NotificationsViewModel.class);
+        notificationViewModel.getNotification().observe(getViewLifecycleOwner(), new Observer<Notification>() {
             @Override
             public void onChanged(Notification notification) {
                 notifications.add(notification);
                 notificationsAdapter.notifyItemInserted(notifications.size() - 1);
+                notificationViewModel.UploadNotificationToFirebase(notification);
             }
         });
-
-        notificationsAdapter = new NotificationsListAdapter(notifications);
-        recyclerView.setAdapter(notificationsAdapter);
-
-        initViews(view);
-        setListeners(view);
-        loadNotificationsFromFirebase();
 
         receiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
                 String content = intent.getStringExtra("message");
                 String date = createNotificationDate();
-                Notification notification = new Notification(content, date, "ganenet","Hello");
+                Notification notification = new Notification(content, date, profileUser.getFullName(),"Hello");
                 notifications.add(notification);
                 notificationsAdapter.notifyItemInserted(notifications.size() - 1);
 
@@ -102,15 +119,14 @@ public class NotificationsListFragment extends Fragment {
         IntentFilter filter = new IntentFilter("message_received");
         LocalBroadcastManager.getInstance(getContext()).registerReceiver(receiver, filter);
 
-        Toast.makeText(view.getContext(), "NotificationsListFragment", Toast.LENGTH_SHORT).show();
-
         //TODO: Check if user is garden manager:
         // if true - make floating action button visible
         // by default the button is invisible
-        floatingActionButton.setVisibility(View.VISIBLE);
     }
 
     private void initViews(View view) {
+
+        recyclerView = view.findViewById(R.id.notifications_recycler_view);
         floatingActionButton = view.findViewById(R.id.notifications_floating_button);
     }
 
@@ -123,7 +139,7 @@ public class NotificationsListFragment extends Fragment {
                 getActivity()
                         .getSupportFragmentManager()
                         .beginTransaction()
-                        .replace(R.id.id_to_fill, new NewNotificationFragment(notificationsAdapter, notifications), "CHAT_FRAGMENT_TAG")
+                        .replace(R.id.id_to_fill, new NewNotificationFragment(), NOTIFICATION_FRAGMENT_TAG)
                         .addToBackStack(null)
                         .commit();
 
@@ -134,6 +150,7 @@ public class NotificationsListFragment extends Fragment {
     }
 
     private void loadNotificationsFromFirebase() {
+
         DatabaseReference mRootRef = FirebaseDatabase.getInstance().getReference();
         mRootRef.child("notifications").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override

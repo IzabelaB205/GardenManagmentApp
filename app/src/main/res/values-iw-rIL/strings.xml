@@ -12,7 +12,6 @@
     <string name="lastname_text_view">שם משפחה</string>
     <string name="item_language">שפה</string>
     <string name="sign_in_title">התחברות</string>
-    <string name="language_switch_title">בחר/י שפה</string>
     <string name="item_chat">צ\'אט</string>
     <string name="email_label">דואר אלקטרוני</string>
     <string name="notification_title">הודעה</string>
@@ -38,4 +37,8 @@
     <string name="provide_email_and_password">נא לספק אימייל וסיסמא</string>
     <string name="sign_in_successfully">התחברת בהצלחה!</string>
     <string name="default_sign_out_text"><u>התנתק מהמערכת</u></string>
+    <string name="profile_picture_alert">תבחר/י תמונת פרופיל</string>
+    <string name="picture_alert_message">בחר/י באחת מהדרכים להעלות תמונה</string>
+    <string name="via_camera">מצלמה</string>
+    <string name="via_gallery">גלריה</string>
 </resources>

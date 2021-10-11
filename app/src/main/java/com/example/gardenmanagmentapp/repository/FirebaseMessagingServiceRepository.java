@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Build;
 
 import androidx.annotation.NonNull;
+import androidx.core.app.NotificationCompat;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.google.firebase.messaging.RemoteMessage;
@@ -19,32 +20,37 @@ public class FirebaseMessagingServiceRepository extends com.google.firebase.mess
     public void onMessageReceived(@NonNull @NotNull RemoteMessage remoteMessage) {
 
         // Check if message contains a data payload
-        if(remoteMessage.getData().size() > 0) {
-            String messageTitle = remoteMessage.getNotification().getTitle();
+        if (remoteMessage.getData().size() > 0) {
+            //String messageTitle = remoteMessage.getNotification().getTitle();
+
 
             Intent intent = new Intent("message_received");
             intent.putExtra("message", remoteMessage.getData().get("message"));
             LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
 
             // Create notification
-            NotificationManager manager = (NotificationManager)getSystemService(NOTIFICATION_SERVICE);
-            Notification.Builder builder = new Notification.Builder(this);
+            String channelID = null;
+            final int NOTIFICATION_ID = 1;
 
-            if(Build.VERSION.SDK_INT >= 26) {
+            NotificationManager manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
 
-                NotificationChannel channel = new NotificationChannel("1", "chat_message_notification", NotificationManager.IMPORTANCE_HIGH);
-                manager.createNotificationChannel(channel);
-                builder.setChannelId("1");
+
+            if (Build.VERSION.SDK_INT >= 26) {
+
+                channelID = "chat_message_notification";
+                NotificationChannel chatChannel = new NotificationChannel("1", channelID, NotificationManager.IMPORTANCE_HIGH);
+                manager.createNotificationChannel(chatChannel);
             }
 
-            builder.setContentTitle(messageTitle)
+            NotificationCompat.Builder builder = new NotificationCompat.Builder(this, channelID);
+            builder.setContentTitle("messageTitle")
                     .setContentText(remoteMessage.getData().get("message"))
                     .setSmallIcon(android.R.drawable.star_on);
-            manager.notify(1, builder.build());
+            manager.notify(NOTIFICATION_ID, builder.build());
         }
 
         // Check if message contains a notification payload
-        if(remoteMessage.getNotification() != null) {
+        if (remoteMessage.getNotification() != null) {
 
         }
 

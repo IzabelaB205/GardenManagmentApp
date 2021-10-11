@@ -13,6 +13,7 @@ import android.widget.EditText;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -29,6 +30,8 @@ import com.example.gardenmanagmentapp.repository.FirebaseDatabaseHelper;
 import com.example.gardenmanagmentapp.model.ChatMessage;
 import com.example.gardenmanagmentapp.R;
 import com.example.gardenmanagmentapp.model.User;
+import com.example.gardenmanagmentapp.viewmodel.AuthenticationViewModel;
+import com.example.gardenmanagmentapp.viewmodel.ChatViewModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -50,11 +53,14 @@ public class ChatFragment extends Fragment {
 
     private FloatingActionButton floatingActionButton;
     private EditText chatMessageEditText;
+
+    private User profileUser;
+    private List<ChatMessage> messages;
     private RecyclerView recyclerView;
     private ChatAdapter chatAdapter;
 
-    private User profileUser = new User("izabela", "123456", "0546375664", "izabelab@gmail.com", "1234567", null);
-    private List<ChatMessage> messages;
+    private ChatViewModel chatViewModel;
+    private AuthenticationViewModel authenticationViewModel;
 
     private BroadcastReceiver receiver;
     private FirebaseDatabaseHelper firebaseHelper = new FirebaseDatabaseHelper();
@@ -74,7 +80,9 @@ public class ChatFragment extends Fragment {
     public void onViewCreated(@NonNull @NotNull View view, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        recyclerView = view.findViewById(R.id.chat_recycler_view);
+        initViews(view);
+        setListeners(view);
+
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
@@ -83,11 +91,20 @@ public class ChatFragment extends Fragment {
         chatAdapter = new ChatAdapter(messages);
         recyclerView.setAdapter(chatAdapter);
 
-        firebaseMessaging.subscribeToTopic("Chat");
+        authenticationViewModel = new ViewModelProvider(requireActivity()).get(AuthenticationViewModel.class);
+        profileUser = authenticationViewModel.getUser().getValue();
 
-        initViews(view);
-        setListeners(view);
-        loadChatMessagesFromFirebase();
+        if(profileUser != null) {
+            changeButtonSate(view.VISIBLE);
+            changeEditTextSate(true);
+            loadChatMessagesFromFirebase();
+        }
+        else {
+            changeButtonSate(view.INVISIBLE);
+            changeEditTextSate(false);
+        }
+
+        firebaseMessaging.subscribeToTopic("Chat");
 
         // TODO: check how to send message to all garden's message
         receiver = new BroadcastReceiver() {
@@ -97,8 +114,6 @@ public class ChatFragment extends Fragment {
                 ChatMessage message = new ChatMessage(content, "Ganenet");
                 messages.add(message);
                 chatAdapter.notifyItemInserted(messages.size() - 1);
-
-                //TODO: write message to database
             }
         };
 
@@ -114,6 +129,7 @@ public class ChatFragment extends Fragment {
 
     private void initViews(View view) {
 
+        recyclerView = view.findViewById(R.id.chat_recycler_view);
         floatingActionButton = view.findViewById(R.id.chat_send_floating_button);
         chatMessageEditText = view.findViewById(R.id.chat_message_edit_text);
     }
@@ -147,16 +163,17 @@ public class ChatFragment extends Fragment {
                 // Read user input from EditText
                 String content = chatMessageEditText.getText().toString();
 
-                // Clear the message input EditText
-                chatMessageEditText.setText("");
-
                 // Create message and notify the chat adapter
                 ChatMessage newMessage = new ChatMessage(content, profileUser.getFullName());
                 messages.add(newMessage);
                 chatAdapter.notifyItemInserted(messages.size() - 1);
 
+                // Clear the message input EditText
+                chatMessageEditText.setText("");
+
                 // Write message to firebase real-time database
-                firebaseHelper.UploadChatMessageToFirebase(newMessage);
+                chatViewModel = new ViewModelProvider(requireActivity()).get(ChatViewModel.class);
+                chatViewModel.UploadChatMessageToFirebase(newMessage);
 
                 // Create json object for sending the POST message using Volley
                 JSONObject rootObject = new JSONObject();
@@ -204,5 +221,13 @@ public class ChatFragment extends Fragment {
                 //      2.user notification to all garden's users
             }
         });
+    }
+
+    private void changeButtonSate(int state) {
+        floatingActionButton.setVisibility(state);
+    }
+
+    private void changeEditTextSate(boolean state) {
+        chatMessageEditText.setEnabled(state);
     }
 }

@@ -19,7 +19,7 @@ public class AuthenticationViewModel extends ViewModel implements FirebaseReposi
     private MutableLiveData<FirebaseUser> mFirebaseUser = new MutableLiveData<FirebaseUser>();
 
     public AuthenticationViewModel() {
-        this.mFirebaseRepository = FirebaseRepository.getInstance();
+        mFirebaseRepository = FirebaseRepository.getInstance();
         mFirebaseRepository.setListener(this);
     }
 
@@ -48,7 +48,7 @@ public class AuthenticationViewModel extends ViewModel implements FirebaseReposi
 
     public void SignOut() {
         mFirebaseUser.setValue(null);
-        mFirebaseRepository.SignOut();
+        //mFirebaseRepository.SignOut();
     }
 
     public void SaveUser(User user) {

@@ -11,7 +11,6 @@
     <string name="lastname_text_view">Lastname</string>
     <string name="item_language">Language</string>
     <string name="sign_in_title">Sign-in</string>
-    <string name="language_switch_title">Choose Language</string>
     <string name="item_chat">Chat</string>
     <string name="email_label">Email</string>
     <string name="notification_title">Notification</string>
@@ -37,4 +36,8 @@
     <string name="provide_email_and_password">Provide email and password</string>
     <string name="sign_in_successfully">Sign-in successfully!</string>
     <string name="default_sign_out_text"><u>Sign-out</u></string>
+    <string name="profile_picture_alert">Choose profile picture</string>
+    <string name="picture_alert_message">Choose one of the ways for upload picture</string>
+    <string name="via_camera">Camera</string>
+    <string name="via_gallery">Gallery</string>
 </resources>

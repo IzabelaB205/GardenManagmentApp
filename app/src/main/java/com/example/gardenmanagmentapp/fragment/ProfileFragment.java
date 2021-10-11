@@ -1,6 +1,8 @@
 package com.example.gardenmanagmentapp.fragment;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
@@ -99,7 +101,14 @@ public class ProfileFragment extends Fragment {
         });
 
         profileUser = viewModel.getUser().getValue();
-        populateView();
+
+        if(profileUser != null) {
+            editImageButton.setVisibility(view.VISIBLE);
+            populateView();
+        }
+        else {
+            editImageButton.setVisibility(view.INVISIBLE);
+        }
     }
 
     private void initViews(View view) {
@@ -119,7 +128,22 @@ public class ProfileFragment extends Fragment {
         profileImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO: add alarm manager for pop-up pic an image
+                AlertDialog.Builder builder  = new AlertDialog.Builder(getContext());
+
+                builder.setTitle(R.string.profile_picture_alert)
+                        .setMessage(R.string.picture_alert_message)
+                        .setPositiveButton(R.string.via_gallery, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                galleryPictureLauncher.launch(null);
+                            }
+                        })
+                        .setNegativeButton(R.string.via_camera, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                cameraLauncher.launch(null);
+                            }
+                        }).show();
             }
         });
 
@@ -167,7 +191,6 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onActivityResult(Uri result) {
                 Glide.with(getContext()).load(result).circleCrop().into(profileImageView);
-                //circleImageView.setImageURI(result);
                 profileUser.setPictureLink(result.toString());
                 uploadImageToFirebase(result);
             }
@@ -176,7 +199,6 @@ public class ProfileFragment extends Fragment {
 
     private void populateView() {
 
-        // TODO: should be if(profileUser!=null) or all edittext set to zero
         textViewUsername.setText(profileUser.getFullName());
         editTextId.setText(profileUser.getId());
         editTextEmail.setText(profileUser.getEmail());

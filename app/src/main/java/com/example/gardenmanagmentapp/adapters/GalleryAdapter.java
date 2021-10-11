@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.gardenmanagmentapp.R;
 import com.example.gardenmanagmentapp.model.Picture;
+import com.squareup.picasso.Picasso;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -56,11 +57,17 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.GalleryV
 
             Picture picture = pictures.get(position);
 
-            Glide.with(context)
-                    .load(picture.getKey())
+            Picasso.get()
+                    .load(picture.getPictureUrl())
                     .placeholder(R.drawable.ic_person)
-                    .circleCrop()
                     .into(holder.galleryImageView);
+
+
+//            Glide.with(context)
+//                    .load(picture.getKey())
+//                    .placeholder(R.drawable.ic_person)
+//                    .circleCrop()
+//                    .into(holder.galleryImageView);
     }
 
     @Override
