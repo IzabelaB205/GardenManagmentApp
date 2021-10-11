@@ -135,7 +135,7 @@ public class ProfileFragment extends Fragment {
                         .setPositiveButton(R.string.via_gallery, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                galleryPictureLauncher.launch(null);
+                                galleryPictureLauncher.launch("image/*");
                             }
                         })
                         .setNegativeButton(R.string.via_camera, new DialogInterface.OnClickListener() {
@@ -162,6 +162,7 @@ public class ProfileFragment extends Fragment {
                 changeEditState(false);
 
                 readProfileChanges();
+                viewModel.SaveUser(profileUser);
             }
         });
 
@@ -220,9 +221,6 @@ public class ProfileFragment extends Fragment {
         profileUser.setEmail(email);
         profileUser.setPhone(phone);
         profileUser.setPassword(password);
-
-        viewModel.SaveUser(profileUser);
-
     }
 
     private void uploadImageToFirebase(Uri uri) {

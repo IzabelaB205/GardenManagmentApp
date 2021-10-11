@@ -103,6 +103,8 @@ public class NotificationsListFragment extends Fragment {
             }
         });
 
+        firebaseMessaging.subscribeToTopic("Notifications");
+
         receiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
@@ -111,17 +113,11 @@ public class NotificationsListFragment extends Fragment {
                 Notification notification = new Notification(content, date, profileUser.getFullName(),"Hello");
                 notifications.add(notification);
                 notificationsAdapter.notifyItemInserted(notifications.size() - 1);
-
-                //TODO: write message to database
             }
         };
 
-        IntentFilter filter = new IntentFilter("message_received");
+        IntentFilter filter = new IntentFilter("notification_received");
         LocalBroadcastManager.getInstance(getContext()).registerReceiver(receiver, filter);
-
-        //TODO: Check if user is garden manager:
-        // if true - make floating action button visible
-        // by default the button is invisible
     }
 
     private void initViews(View view) {

@@ -179,7 +179,9 @@ public class ChatFragment extends Fragment {
                 JSONObject rootObject = new JSONObject();
                 try {
                     rootObject.put("to", "/topics/Chat");
-                    rootObject.put("data", new JSONObject().put("message", content));
+                    rootObject.put("data", new JSONObject()
+                            .put("message", content)
+                            .put("topic", "Chat"));
 
                     String url = "https://fcm.googleapis.com/fcm/send";
 

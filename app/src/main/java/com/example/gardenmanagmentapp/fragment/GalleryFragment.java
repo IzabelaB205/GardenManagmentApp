@@ -8,16 +8,22 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.gardenmanagmentapp.R;
 import com.example.gardenmanagmentapp.adapters.GalleryAdapter;
+import com.example.gardenmanagmentapp.model.User;
 import com.example.gardenmanagmentapp.repository.FirebaseDatabaseHelper;
 import com.example.gardenmanagmentapp.model.Picture;
+import com.example.gardenmanagmentapp.viewmodel.AuthenticationViewModel;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.ListResult;
 import com.google.firebase.storage.StorageReference;
@@ -29,12 +35,15 @@ import java.util.List;
 
 public class GalleryFragment extends Fragment {
 
-    private List<Picture> pictures;
     private FloatingActionButton picturesFloatingButton;
+
+    private User profileUser;
+    private List<Picture> pictures;
+    private RecyclerView recyclerView;
     private GalleryAdapter pictureStorageAdapter;
     GridLayoutManager gridLayoutManager;
 
-    private FirebaseDatabaseHelper firebaseHelper = new FirebaseDatabaseHelper();
+    private AuthenticationViewModel authenticationViewModel;
 
     public GalleryFragment() {};
 
@@ -52,15 +61,14 @@ public class GalleryFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_gallery_storage, container, false);
     }
 
-    private void initViews(View view) {
-        picturesFloatingButton = view.findViewById(R.id.gallery_floating_button);
-    }
-
     @Override
     public void onViewCreated(@NonNull @NotNull View view, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        RecyclerView recyclerView = view.findViewById(R.id.gallery_recycler_view);
+        initViews(view);
+        setListeners(view);
+
+        recyclerView = view.findViewById(R.id.gallery_recycler_view);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(gridLayoutManager);
 
@@ -69,11 +77,28 @@ public class GalleryFragment extends Fragment {
         pictureStorageAdapter = new GalleryAdapter(getContext(), pictures);
         recyclerView.setAdapter(pictureStorageAdapter);
 
-        initViews(view);
-        setListeners(view);
-        loadPicturesFromFirebase();
+        authenticationViewModel = new ViewModelProvider(requireActivity()).get(AuthenticationViewModel.class);
+        authenticationViewModel.getUser().observe(getViewLifecycleOwner(), new Observer<User>() {
+            @Override
+            public void onChanged(User user) {
+                profileUser = user;
+            }
+        });
 
-        picturesFloatingButton.setVisibility(View.VISIBLE);
+        profileUser = authenticationViewModel.getUser().getValue();
+
+        if (profileUser != null) {
+            picturesFloatingButton.setVisibility(View.VISIBLE);
+            loadPicturesFromFirebase();
+        } else {
+            picturesFloatingButton.setVisibility(View.INVISIBLE);
+        }
+    }
+
+    private void initViews(View view) {
+
+        recyclerView = view.findViewById(R.id.gallery_recycler_view);
+        picturesFloatingButton = view.findViewById(R.id.gallery_floating_button);
     }
 
     private void setListeners(View view) {
@@ -93,7 +118,6 @@ public class GalleryFragment extends Fragment {
     private void loadPicturesFromFirebase() {
         FirebaseStorage storage = FirebaseStorage.getInstance();
         StorageReference listRef = storage.getReference().child("uploads");
-
 
         listRef.listAll()
                 .addOnSuccessListener(new OnSuccessListener<ListResult>() {
@@ -116,6 +140,5 @@ public class GalleryFragment extends Fragment {
                         // Uh-oh, an error occurred!
                     }
                 });
-
     }
 }

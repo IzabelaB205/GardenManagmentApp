@@ -108,7 +108,6 @@ public class MainActivity extends AppCompatActivity implements PictureSelectionF
                                 .replace(R.id.id_to_fill, new HomeFragment(), HOME_FRAGMENT_TAG)
                                 .addToBackStack(null)
                                 .commit();
-
                         break;
                     case R.id.item_notifications:
                             fragmentManager.beginTransaction()
@@ -132,6 +131,7 @@ public class MainActivity extends AppCompatActivity implements PictureSelectionF
                     case R.id.item_profile:
                         fragmentManager.beginTransaction()
                                 .replace(R.id.id_to_fill, new ProfileFragment(), PROFILE_FRAGMENT_TAG)
+                                .addToBackStack(null)
                                 .commit();
                         break;
                 }

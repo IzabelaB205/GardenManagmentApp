@@ -21,27 +21,44 @@ public class FirebaseMessagingServiceRepository extends com.google.firebase.mess
 
         // Check if message contains a data payload
         if (remoteMessage.getData().size() > 0) {
-
-            Intent intent = new Intent("message_received");
-            intent.putExtra("message", remoteMessage.getData().get("message"));
-            LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
+            String topic = remoteMessage.getData().get("topic");
 
             // Create notification
             String channelID = null;
+            String messageTitle = null;
             final int NOTIFICATION_ID = 1;
 
             NotificationManager manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
 
-
             if (Build.VERSION.SDK_INT >= 26) {
 
-                channelID = "chat_message_notification";
-                NotificationChannel chatChannel = new NotificationChannel("1", channelID, NotificationManager.IMPORTANCE_HIGH);
-                manager.createNotificationChannel(chatChannel);
+                if(topic.equals("Chat")) {
+
+                    Intent chat_message_intent = new Intent("message_received");
+                    chat_message_intent.putExtra("message", remoteMessage.getData().get("message"));
+                    LocalBroadcastManager.getInstance(this).sendBroadcast(chat_message_intent);
+
+                    channelID = "chat_message_notification";
+                    messageTitle = "Chat message notification";
+                    NotificationChannel chatChannel = new NotificationChannel("1", channelID, NotificationManager.IMPORTANCE_HIGH);
+                    manager.createNotificationChannel(chatChannel);
+                }
+
+                else if(topic.equals("Notifications")) {
+                    Intent chat_message_intent = new Intent("notification_received");
+                    chat_message_intent.putExtra("message", remoteMessage.getData().get("message"));
+                    LocalBroadcastManager.getInstance(this).sendBroadcast(chat_message_intent);
+
+                    channelID = "chat_message_notification";
+                    messageTitle = "Notification message";
+                    NotificationChannel chatChannel = new NotificationChannel("1", channelID, NotificationManager.IMPORTANCE_HIGH);
+                    manager.createNotificationChannel(chatChannel);
+
+                }
             }
 
             NotificationCompat.Builder builder = new NotificationCompat.Builder(this, channelID);
-            builder.setContentTitle("messageTitle")
+            builder.setContentTitle(messageTitle)
                     .setContentText(remoteMessage.getData().get("message"))
                     .setSmallIcon(android.R.drawable.star_on)
                     .setChannelId("1");

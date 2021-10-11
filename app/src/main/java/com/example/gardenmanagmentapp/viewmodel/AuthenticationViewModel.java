@@ -47,8 +47,8 @@ public class AuthenticationViewModel extends ViewModel implements FirebaseReposi
     }
 
     public void SignOut() {
+        mUser.setValue(null);
         mFirebaseUser.setValue(null);
-        //mFirebaseRepository.SignOut();
     }
 
     public void SaveUser(User user) {
