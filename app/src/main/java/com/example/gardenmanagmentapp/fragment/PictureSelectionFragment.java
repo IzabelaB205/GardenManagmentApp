@@ -78,7 +78,7 @@ public class PictureSelectionFragment extends Fragment {
         pictureCancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                getActivity().getSupportFragmentManager().popBackStack();
             }
         });
 

@@ -102,7 +102,7 @@ public class ProfileFragment extends Fragment {
 
         profileUser = viewModel.getUser().getValue();
 
-        if(profileUser != null) {
+        if(profileUser != null && FirebaseAuth.getInstance().getCurrentUser() != null) {
             editImageButton.setVisibility(view.VISIBLE);
             populateView();
         }

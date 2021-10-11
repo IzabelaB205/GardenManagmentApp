@@ -140,7 +140,6 @@ public class MainActivity extends AppCompatActivity implements PictureSelectionF
                 return true;
             }
         });
-
     }
 
     @Override
@@ -180,12 +179,5 @@ public class MainActivity extends AppCompatActivity implements PictureSelectionF
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.add(R.id.id_to_fill, new HomeFragment(), HOME_FRAGMENT_TAG);
         transaction.commit();
-
-/*        DefaultFragment defaultFragment = DefaultFragment.newInstance(selectedItem, title, context);
-
-        fragmentManager.beginTransaction()
-                .replace(R.id.id_to_fill, defaultFragment, DEFAULT_FRAGMENT_TAG)
-//                .addToBackStack(null)
-                .commit();*/
     }
 }

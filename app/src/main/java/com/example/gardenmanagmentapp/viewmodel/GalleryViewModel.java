@@ -20,4 +20,8 @@ public class GalleryViewModel extends ViewModel {
     public LiveData<Picture> getPicture() { return mPicture; }
 
     public void setPicture(Picture picture) { mPicture.setValue(picture); }
+
+    public void UploadPictureToFirebase(Picture picture, String fileExtension) {
+        mFirebaseRepository.UploadPictureToFirebase(picture, fileExtension);
+    }
 }

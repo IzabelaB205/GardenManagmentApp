@@ -1,12 +1,16 @@
 package com.example.gardenmanagmentapp.repository;
 
+import android.net.Uri;
+
 import androidx.annotation.NonNull;
 
 import com.example.gardenmanagmentapp.model.ChatMessage;
 import com.example.gardenmanagmentapp.model.Notification;
+import com.example.gardenmanagmentapp.model.Picture;
 import com.example.gardenmanagmentapp.model.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -15,11 +19,14 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 public class FirebaseRepository {
 
     private FirebaseAuth firebaseAuth;
     private DatabaseReference databaseReference;
+    private StorageReference storageReference;
 
     private static FirebaseRepository instance;
     private FirebaseRepositoryListener listener;
@@ -34,6 +41,7 @@ public class FirebaseRepository {
     private FirebaseRepository() {
         firebaseAuth = FirebaseAuth.getInstance();
         databaseReference = FirebaseDatabase.getInstance().getReference();
+
     }
 
     public interface FirebaseRepositoryListener {
@@ -123,5 +131,16 @@ public class FirebaseRepository {
     public void UploadChatMessageToFirebase(ChatMessage chatMessage) {
         String uniqueId = databaseReference.child("chat").push().getKey();
         databaseReference.child("chat").child(uniqueId).setValue(chatMessage);
+    }
+
+    public void UploadPictureToFirebase(Picture picture, String fileExtension) {
+        StorageReference fileReference = storageReference.child(System.currentTimeMillis() + "." + fileExtension);
+        fileReference.putFile(Uri.parse(picture.getPictureUrl())).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                String uniqueId = databaseReference.push().getKey();
+                databaseReference.child("uploads").child(uniqueId).setValue(picture);
+            }
+        });
     }
 }
