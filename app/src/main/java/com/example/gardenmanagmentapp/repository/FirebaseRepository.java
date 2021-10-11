@@ -14,6 +14,8 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.SignInMethodQueryResult;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -51,6 +53,8 @@ public class FirebaseRepository {
         void OnProfileUserSaved(User user);
 
         void OnProfileUserReceived(User user);
+
+        void OnUserExists(boolean exist);
     }
 
     public void setListener(FirebaseRepositoryListener listener) {
@@ -67,6 +71,31 @@ public class FirebaseRepository {
                             listener.OnSignInSuccessful();
                         }
                     }
+                }
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+
+            }
+        });
+    }
+
+    public void RegisterUser(FirebaseUser user) {
+        String email = user.getEmail();
+        User newUser = new User();
+        newUser.setEmail(email);
+        databaseReference.child("users").child(firebaseAuth.getCurrentUser().getUid()).setValue(newUser);
+    }
+
+    public void IsUserExist(String email) {
+        firebaseAuth.fetchSignInMethodsForEmail(email).addOnCompleteListener(new OnCompleteListener<SignInMethodQueryResult>() {
+            @Override
+            public void onComplete(@NonNull Task<SignInMethodQueryResult> task) {
+                boolean isExists = !task.getResult().getSignInMethods().isEmpty();
+
+                if (listener != null) {
+                    listener.OnUserExists(isExists);
                 }
             }
         }).addOnFailureListener(new OnFailureListener() {

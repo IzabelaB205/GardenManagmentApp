@@ -26,6 +26,14 @@ public class AuthenticationViewModel extends ViewModel implements FirebaseReposi
     @Override
     public void OnSignInSuccessful() {
         mFirebaseUser.setValue(FirebaseAuth.getInstance().getCurrentUser());
+        mFirebaseRepository.IsUserExist(mFirebaseUser.getValue().getEmail());
+    }
+
+    @Override
+    public void OnUserExists(boolean exist) {
+        if(!exist) {
+            mFirebaseRepository.RegisterUser(mFirebaseUser.getValue());
+        }
     }
 
     @Override
@@ -49,6 +57,10 @@ public class AuthenticationViewModel extends ViewModel implements FirebaseReposi
     public void SignOut() {
         mUser.setValue(null);
         mFirebaseUser.setValue(null);
+    }
+
+    public void IsUserExist(String email) {
+        mFirebaseRepository.IsUserExist(email);
     }
 
     public void SaveUser(User user) {
